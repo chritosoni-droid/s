@@ -735,6 +735,321 @@ def parse_phase_context(condition: str) -> dict:
     }
 
 
+def read_medical_report(filepath: str) -> str:
+    """Legge referto medico da PDF, TXT o MD."""
+    p = Path(filepath)
+    if not p.exists():
+        return ""
+    if p.suffix.lower() == ".pdf":
+        try:
+            from pypdf import PdfReader
+            reader = PdfReader(filepath)
+            return "\n".join(page.extract_text() or "" for page in reader.pages)
+        except ImportError:
+            try:
+                import pdfplumber
+                with pdfplumber.open(filepath) as pdf:
+                    return "\n".join(page.extract_text() or "" for page in pdf.pages)
+            except ImportError:
+                return "[PDF allegato — installa pypdf: pip install pypdf]"
+    return p.read_text(encoding="utf-8", errors="ignore")
+
+
+FULL_SYSTEM_PROMPT = """\
+Sei un fisioterapista esperto con PhD in scienze riabilitative e medicina dello sport,
+specializzato in fisioterapia muscoloscheletrica, sportiva e riabilitazione post-chirurgica.
+
+Generi protocolli riabilitativi PERSONALIZZATI per qualsiasi patologia fisioterapica,
+basati su:
+  1. Evidenze scientifiche PubMed fornite (SR, MA, RCT, linee guida)
+  2. Referto medico allegato (se presente) — PRIORITÀ MASSIMA per diagnosi e vincoli
+  3. Dati clinici del paziente (VAS, fase, sport, obiettivi, limitazioni)
+  4. Libreria esercizi personalizzata del fisioterapista
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STRUTTURA OBBLIGATORIA SESSIONE (5 FASI):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔥 FASE 1 — RISCALDAMENTO DINAMICO (10-15 min): mobilizzazione, warm-up cardiovascolare
+🧱 FASE 2 — ISOMETRIA (5-10 min): contrazioni isometriche 60-80% MVC, 5×45s
+⚡ FASE 3 — ATTIVAZIONE SPECIFICA (10-15 min): attivazione neuromuscolare basso carico
+💪 FASE 4 — ESERCIZI SPECIFICI (20-30 min): forza, propriocezione, BOSU, pliometria
+🧘 FASE 5 — STRETCHING / DEFATICAMENTO (10 min): stretching statico 30-60s
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+REGOLE ASSOLUTE:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Il referto medico allegato è la fonte primaria: rispetta SEMPRE diagnosi, vincoli
+   chirurgici, controindicazioni e indicazioni del medico.
+2. Ogni raccomandazione DEVE citare PMID reale + livello evidenza (A/B/C).
+3. Ogni esercizio DEVE avere ID dalla libreria fornita.
+4. Criteri di avanzamento MISURABILI: VAS, ROM°, LSI%, hop test LSI, H:Q ratio.
+5. Adatta il protocollo al VAS attuale: se VAS ≥7 privilegia gestione dolore;
+   se VAS ≤2 progredisci verso forza/sport.
+6. Adatta all'atleta: se sport indicato, includi gesti sport-specifici nelle fasi avanzate.
+7. Rispetta limitazioni e comorbidità nella selezione degli esercizi.
+8. Timeline con settimane SPECIFICHE e obiettivi MISURABILI.
+9. Include sempre: RTP → RTT → RTS con criteri biometrici + funzionali + psicologici.
+10. RED FLAGS: segnali che richiedono stop e rivalutazione medico-chirurgica.
+11. LINGUA: italiano tecnico-clinico. Tabelle per parametri e progressioni.
+12. BIBLIOGRAFIA COMPLETA: PMID | DOI | Autori | Anno | Tipo studio | Livello.
+"""
+
+FULL_USER_TEMPLATE = """\
+CONDIZIONE PAZIENTE: {condition}
+DATA: {date}
+
+{phase_block}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DATI CLINICI PAZIENTE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• Dolore attuale (VAS 0-10): {pain_vas}/10  {vas_interpretation}
+• Fase dichiarata dal fisioterapista: {fase_input}
+• Settimane dall'evento/intervento: {weeks}
+• Sport praticato / attività principale: {sport}
+• Obiettivi del paziente: {objectives}
+• Limitazioni / Comorbidità: {limitations}
+• Note cliniche aggiuntive: {notes}
+
+{medical_report_section}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EVIDENZE SCIENTIFICHE PUBMED — {n_articles} ARTICOLI
+(systematic reviews, meta-analisi, RCT, linee guida, coorti)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+{evidence_text}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+LIBRERIA ESERCIZI PERSONALIZZATA (205 esercizi)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+{exercise_context}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+RICHIESTA: PROTOCOLLO RIABILITATIVO COMPLETO E PERSONALIZZATO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STRUTTURA OBBLIGATORIA:
+
+---
+
+## 0. FASE ATTUALE ⏱️
+
+### Dove siamo ora
+- **Fase:** [nome + settimane]
+- **Obiettivi QUESTA settimana:** [lista con valori misurabili]
+- **Adattamenti per VAS {pain_vas}/10:** [indicazioni specifiche]
+{sport_line}
+
+### Già completato (fasi precedenti)
+Sintesi di ciò che dovrebbe essere stato fatto prima.
+
+### Timeline completa con indicazione "◀ SIAMO QUI"
+| Settimane | Fase | Obiettivi | Criteri avanzamento | Stato |
+|---|---|---|---|---|
+
+### Obiettivi prossime 4 settimane
+| Settimana | Obiettivi | Esercizi chiave (ID) | Carico | Criteri go/no-go |
+|---|---|---|---|---|
+
+---
+
+## 1. PANORAMICA CLINICA
+
+### Diagnosi, anatomia, meccanismo lesionale
+{referto_note}
+### Epidemiologia e fattori di rischio (PMID)
+
+---
+
+## 2. VALUTAZIONE INIZIALE
+| Strumento | Misura | Baseline atteso | Soglia avanzamento | PMID |
+|---|---|---|---|---|
+
+### Test funzionali con soglie numeriche evidence-based
+
+---
+
+## 3. SESSIONE TIPO — 5 FASI (esercizi dalla libreria, FASE ATTUALE)
+
+### 🔥 FASE 1 — RISCALDAMENTO (10-15 min)
+Razionale (PMID):
+| ID | Esercizio | Durata/Serie | Note |
+|---|---|---|---|
+
+### 🧱 FASE 2 — ISOMETRIA (5-10 min)
+Razionale (PMID):
+| ID | Esercizio | Angolo | Durata×Set | Intensità | Note |
+|---|---|---|---|---|---|
+
+### ⚡ FASE 3 — ATTIVAZIONE SPECIFICA (10-15 min)
+Razionale (PMID):
+| ID | Esercizio | Serie×Rip | Recupero | Note |
+|---|---|---|---|---|
+
+### 💪 FASE 4 — ESERCIZI SPECIFICI
+#### Fase attuale
+| ID | Esercizio | Serie×Rip | Carico | PMID | Livello |
+|---|---|---|---|---|---|
+#### Fase successiva (progressione)
+| ID | Esercizio | Serie×Rip | Carico | PMID | Livello |
+|---|---|---|---|---|---|
+
+### 🧘 FASE 5 — STRETCHING (10 min)
+| ID | Esercizio | Durata | Muscolo | Note |
+|---|---|---|---|---|
+
+---
+
+## 4. PROGRESSIONE SETTIMANALE
+| Settimane | Fase | Obiettivi | Esercizi chiave (ID) | Criteri avanzamento | Hz/sett |
+|---|---|---|---|---|---|
+
+---
+
+## 5. TERAPIA FISICA ADIUVANTE
+| Trattamento | Parametri | PMID | Livello |
+|---|---|---|---|
+
+---
+
+## 6. GESTIONE DEL DOLORE (VAS {pain_vas}/10)
+
+---
+
+## 7. RTP — RETURN TO PLAY
+| Dominio | Test | Soglia | PMID |
+|---|---|---|---|
+
+## 8. RTT — RETURN TO TRAINING
+Progressione carico % per settimana, ACWR <1.5
+
+## 9. RTS — RETURN TO SPORT
+| Dominio | Test | Soglia | PMID |
+|---|---|---|---|
+| LSI quad/ischio | Dinamometria | ≥90% | |
+| H:Q ratio | — | ≥0.60 | |
+| Hop test | Single/Triple/Crossover | LSI ≥90% | |
+| Psicologico | ACL-RSI / TSK | ≥65 / <37 | |
+
+---
+
+## 10. RED FLAGS ⚠️
+| Segnale | Causa possibile | Azione |
+|---|---|---|
+
+---
+
+## 11. GAP NELLE EVIDENZE
+
+---
+
+## 12. BIBLIOGRAFIA
+| # | PMID | DOI | Autore | Anno | Rivista | Tipo | Livello | Uso |
+|---|---|---|---|---|---|---|---|---|
+
+---
+
+IMPORTANTE: ogni PMID citato deve essere reale (dalla lista fornita).
+Non inventare PMID. Se manca evidenza diretta: "Consenso clinico (C)".
+"""
+
+
+def generate_protocol_full(
+    condition: str,
+    evidence: dict,
+    pain_vas: int = 0,
+    sport: str = "",
+    objectives: str = "",
+    limitations: str = "",
+    notes: str = "",
+    medical_report: str = "",
+    fase_input: str = "",
+    weeks: int = None,
+) -> str:
+    """Genera protocollo completo con tutti i parametri clinici + referto medico."""
+    if not ANTHROPIC_API_KEY:
+        return (
+            "❌ ANTHROPIC_API_KEY non configurata.\n"
+            "Esegui: export ANTHROPIC_API_KEY='sk-ant-...'\n"
+            "Poi riavvia l'app."
+        )
+    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+
+    keywords = condition.lower().split()
+    exercise_context = build_exercise_context(keywords)
+    evidence_text = build_evidence_text(evidence)
+    phase_ctx = parse_phase_context(condition)
+
+    phase_block = f"""\
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⏱️  FASE ATTUALE RILEVATA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Fase: {phase_ctx['phase_name']}
+Timing: {f"giorno {phase_ctx['days']}" if phase_ctx.get('days') else f"settimana {int(phase_ctx['weeks'])}" if phase_ctx.get('weeks') else "non specificato"}
+Post-operatorio: {"SÌ" if phase_ctx['post_op'] else "NO"}
+Monaco grade: {phase_ctx.get('monaco_grade') or "N/A"}
+
+Obiettivi ADESSO: {phase_ctx['objectives_now']}
+Obiettivi FASE SUCCESSIVA: {phase_ctx['objectives_next']}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"""
+
+    vas_map = {
+        0: "(assente)", 1: "(minimo)", 2: "(lieve)", 3: "(lieve-moderato)",
+        4: "(moderato)", 5: "(moderato)", 6: "(moderato-severo)",
+        7: "(severo — priorità analgesia)", 8: "(severo)", 9: "(molto severo)",
+        10: "(massimo — stop attività)",
+    }
+    vas_interpretation = vas_map.get(pain_vas, "")
+
+    medical_report_section = ""
+    if medical_report.strip():
+        preview = medical_report[:4000]
+        medical_report_section = f"""\
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📄 REFERTO MEDICO (FONTE PRIMARIA — MASSIMA PRIORITÀ)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+{preview}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ISTRUZIONE: Le indicazioni del medico nel referto sopra hanno PRIORITÀ ASSOLUTA
+su qualsiasi altra fonte. Rispetta vincoli, controindicazioni e timing indicati.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"""
+
+    referto_note = "(Analizza il referto medico allegato e riporta diagnosis principale, classificazione e indicazioni chirurgiche/conservative.)" if medical_report.strip() else "(Diagnosi dalla condizione indicata.)"
+
+    sport_line = f"- **Sport-specificità:** Includi gesti specifici per {sport} nelle fasi avanzate" if sport else ""
+
+    n_articles = sum(len(v) for v in evidence.values())
+    user_msg = FULL_USER_TEMPLATE.format(
+        condition=condition,
+        date=datetime.now().strftime("%B %Y"),
+        phase_block=phase_block,
+        pain_vas=pain_vas,
+        vas_interpretation=vas_interpretation,
+        fase_input=fase_input or "non specificata",
+        weeks=weeks or phase_ctx.get("weeks") or "non specificato",
+        sport=sport or "non specificato",
+        objectives=objectives or "non specificati",
+        limitations=limitations or "nessuna",
+        notes=notes or "nessuna",
+        medical_report_section=medical_report_section,
+        referto_note=referto_note,
+        sport_line=sport_line,
+        evidence_text=evidence_text,
+        exercise_context=exercise_context,
+        n_articles=n_articles,
+    )
+
+    msg = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=8192,
+        system=FULL_SYSTEM_PROMPT,
+        messages=[{"role": "user", "content": user_msg}],
+    )
+    return msg.content[0].text
+
+
 def build_evidence_text(evidence: dict) -> str:
     sections = []
     for section, articles in evidence.items():
