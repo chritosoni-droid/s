@@ -1,0 +1,265 @@
+{
+  "version": "1.0",
+  "description": "Libreria esercizi fisioterapici - tutte le schede",
+  "exercises": [
+
+    // ─── MOBILITÀ ────────────────────────────────────────────────────────────
+
+    {"id": "mob_anca_01", "name": "90/90 hip switch", "category": "mobilita", "distretto": "anca", "tipo": "mobilizzazione", "fase_sessione": [1, 3], "attrezzatura": [], "difficolta": 1, "note": "Migliora mobilità anca e controllo bacino"},
+    {"id": "mob_anca_02", "name": "Affondo con torso eretto (couch stretch)", "category": "mobilita", "distretto": "anca", "tipo": "stretching_dinamico", "fase_sessione": [1, 5], "attrezzatura": [], "difficolta": 1, "note": "Allunga flessori anca"},
+    {"id": "mob_anca_03", "name": "Hip CARs", "category": "mobilita", "distretto": "anca", "tipo": "mobilizzazione", "fase_sessione": [1, 3], "attrezzatura": [], "difficolta": 2, "note": "Controllo articolare e mobilità completa anca"},
+    {"id": "mob_anca_04", "name": "Deep squat hold", "category": "mobilita", "distretto": "anca_caviglia", "tipo": "mobilizzazione", "fase_sessione": [1, 5], "attrezzatura": [], "difficolta": 2, "note": "Mobilità anca + caviglia + stabilità accosciata"},
+
+    {"id": "mob_cav_01", "name": "Weight-bearing lunge knee-to-wall", "category": "mobilita", "distretto": "caviglia", "tipo": "mobilizzazione", "fase_sessione": [1, 3], "attrezzatura": [], "difficolta": 1, "note": "Dorsiflessione caviglia con tallone a terra"},
+    {"id": "mob_cav_02", "name": "Stretching gastrocnemio-soleo", "category": "mobilita", "distretto": "caviglia", "tipo": "stretching_statico", "fase_sessione": [1, 5], "attrezzatura": [], "difficolta": 1, "note": "Allunga polpaccio e soleo"},
+    {"id": "mob_cav_03", "name": "Foam rolling + downward dog caviglia", "category": "mobilita", "distretto": "caviglia", "tipo": "mobilizzazione", "fase_sessione": [1], "attrezzatura": ["foam_roller"], "difficolta": 1, "note": "Rilascio miofasciale + mobilità dinamica"},
+
+    {"id": "mob_lom_01", "name": "Cat-cow", "category": "mobilita", "distretto": "lombare", "tipo": "mobilizzazione", "fase_sessione": [1, 3], "attrezzatura": [], "difficolta": 1, "note": "Mobilizza colonna lombare in flessione/estensione"},
+    {"id": "mob_lom_02", "name": "Child's pose", "category": "mobilita", "distretto": "lombare", "tipo": "stretching_statico", "fase_sessione": [1, 5], "attrezzatura": [], "difficolta": 1, "note": "Rilassa zona lombare"},
+    {"id": "mob_lom_03", "name": "Bird dog (lombare)", "category": "mobilita", "distretto": "lombare", "tipo": "stabilita", "fase_sessione": [1, 3], "attrezzatura": [], "difficolta": 2, "note": "Stabilità e controllo tronco"},
+    {"id": "mob_lom_04", "name": "Knee rolls (rotazioni lombari da supino)", "category": "mobilita", "distretto": "lombare", "tipo": "mobilizzazione", "fase_sessione": [1, 5], "attrezzatura": [], "difficolta": 1, "note": "Mobilizza parte bassa schiena con rotazione"},
+
+    {"id": "mob_tor_01", "name": "Thoracic rotation in quadrupedia (open book)", "category": "mobilita", "distretto": "toracica", "tipo": "mobilizzazione", "fase_sessione": [1, 3], "attrezzatura": [], "difficolta": 2, "note": "Migliora rotazione toracica"},
+    {"id": "mob_tor_02", "name": "Thoracic extension su foam roller", "category": "mobilita", "distretto": "toracica", "tipo": "mobilizzazione", "fase_sessione": [1, 5], "attrezzatura": ["foam_roller"], "difficolta": 1, "note": "Estensione toracica e apertura petto"},
+    {"id": "mob_tor_03", "name": "Rotazioni toraciche da seduto", "category": "mobilita", "distretto": "toracica", "tipo": "mobilizzazione", "fase_sessione": [1, 3], "attrezzatura": [], "difficolta": 1, "note": "Migliora rotazione toracica da seduto"},
+
+    {"id": "mob_cer_01", "name": "Chin tuck", "category": "mobilita", "distretto": "cervicale", "tipo": "attivazione", "fase_sessione": [1, 3], "attrezzatura": [], "difficolta": 1, "note": "Migliora allineamento cervicale, attiva flessori profondi"},
+    {"id": "mob_cer_02", "name": "Rotazioni e flessioni laterali cervicali attive", "category": "mobilita", "distretto": "cervicale", "tipo": "mobilizzazione", "fase_sessione": [1, 3], "attrezzatura": [], "difficolta": 1, "note": "Mobilità cervicale attiva e controllata"},
+    {"id": "mob_cer_03", "name": "Mobilità cervico-mandibolare combinata", "category": "mobilita", "distretto": "cervicale", "tipo": "mobilizzazione", "fase_sessione": [1], "attrezzatura": [], "difficolta": 1, "note": "Integra collo e mandibola"},
+
+    {"id": "mob_spa_01", "name": "Sleeper stretch", "category": "mobilita", "distretto": "spalla", "tipo": "stretching_statico", "fase_sessione": [1, 5], "attrezzatura": [], "difficolta": 1, "note": "Allunga capsula posteriore spalla"},
+    {"id": "mob_spa_02", "name": "Cross-body stretch", "category": "mobilita", "distretto": "spalla", "tipo": "stretching_statico", "fase_sessione": [1, 5], "attrezzatura": [], "difficolta": 1, "note": "Mobilizza parte posteriore spalla"},
+    {"id": "mob_spa_03", "name": "Wall slides / scapular CARs", "category": "mobilita", "distretto": "spalla", "tipo": "mobilizzazione", "fase_sessione": [1, 3], "attrezzatura": [], "difficolta": 2, "note": "Controllo scapolare e mobilità in elevazione"},
+    {"id": "mob_spa_04", "name": "Mobilizzazione spalla posteriore + toracica alta", "category": "mobilita", "distretto": "spalla", "tipo": "mobilizzazione", "fase_sessione": [1, 3], "attrezzatura": ["foam_roller"], "difficolta": 2, "note": "Integra mobilità spalla e toracica alta"},
+
+    // ─── GLUTEI ──────────────────────────────────────────────────────────────
+
+    {"id": "glu_att_01", "name": "Glute bridge a corpo libero", "category": "forza", "distretto": "glutei_grande", "tipo": "attivazione", "fase_sessione": [2, 3], "attrezzatura": [], "difficolta": 1, "note": "2-3s tenuta in posizione alta"},
+    {"id": "glu_att_02", "name": "Fire hydrant", "category": "forza", "distretto": "glutei_medio", "tipo": "attivazione", "fase_sessione": [2, 3], "attrezzatura": [], "difficolta": 1, "note": "Abduzione anca con busto stabile"},
+    {"id": "glu_att_03", "name": "Donkey kick", "category": "forza", "distretto": "glutei_grande", "tipo": "attivazione", "fase_sessione": [2, 3], "attrezzatura": [], "difficolta": 1, "note": "Estensione anca con ginocchio flesso"},
+    {"id": "glu_att_04", "name": "Banded glute bridge", "category": "forza", "distretto": "glutei_grande", "tipo": "attivazione", "fase_sessione": [2, 3], "attrezzatura": ["mini_band"], "difficolta": 1, "note": "Mini-band sopra ginocchia"},
+    {"id": "glu_att_05", "name": "Clam shell", "category": "forza", "distretto": "glutei_medio", "tipo": "attivazione", "fase_sessione": [2, 3], "attrezzatura": [], "difficolta": 1, "note": "Piedi uniti, apri ginocchio superiore"},
+    {"id": "glu_att_06", "name": "Side-lying hip abduction", "category": "forza", "distretto": "glutei_medio", "tipo": "attivazione", "fase_sessione": [2, 3], "attrezzatura": [], "difficolta": 1, "note": "Solleva gamba con bacino stabile"},
+    {"id": "glu_att_07", "name": "Monster walk", "category": "forza", "distretto": "glutei_medio", "tipo": "attivazione", "fase_sessione": [1, 3], "attrezzatura": ["resistance_band"], "difficolta": 2, "note": "Passi laterali con banda alle caviglie"},
+    {"id": "glu_att_08", "name": "Bird dog (gluteo)", "category": "forza", "distretto": "glutei", "tipo": "attivazione", "fase_sessione": [1, 3], "attrezzatura": [], "difficolta": 2, "note": "Componente stabilizzante core-gluteo"},
+
+    {"id": "glu_for_01", "name": "Hip thrust con bilanciere o macchina", "category": "forza", "distretto": "glutei_grande", "tipo": "forza", "fase_sessione": [4], "attrezzatura": ["bilanciere", "panca"], "difficolta": 3, "note": "Massima estensione anca e contrazione glutei"},
+    {"id": "glu_for_02", "name": "Back squat / front squat", "category": "forza", "distretto": "glutei_quad", "tipo": "forza", "fase_sessione": [4], "attrezzatura": ["bilanciere"], "difficolta": 4, "note": "Squat completo, anche sotto parallelo"},
+    {"id": "glu_for_03", "name": "Romanian deadlift (RDL)", "category": "forza", "distretto": "glutei_ischio", "tipo": "forza", "fase_sessione": [4], "attrezzatura": ["bilanciere", "manubri"], "difficolta": 3, "note": "Flessione anca con ginocchia leggermente flesse"},
+    {"id": "glu_for_04", "name": "Bulgarian split squat con carico", "category": "forza", "distretto": "glutei_quad", "tipo": "forza", "fase_sessione": [4], "attrezzatura": ["manubri", "bilanciere"], "difficolta": 4, "note": "Squat monopodalico con enfasi sul gluteo"},
+    {"id": "glu_for_05", "name": "Affondi con carico", "category": "forza", "distretto": "glutei_quad", "tipo": "forza", "fase_sessione": [4], "attrezzatura": ["manubri"], "difficolta": 3, "note": "Passo lungo, spingi con il tallone"},
+    {"id": "glu_for_06", "name": "Cable hip abduction", "category": "forza", "distretto": "glutei_medio", "tipo": "forza", "fase_sessione": [4], "attrezzatura": ["cavo"], "difficolta": 3, "note": "Allontana gamba controllando il bacino"},
+    {"id": "glu_for_07", "name": "Hip abduction machine", "category": "forza", "distretto": "glutei_medio", "tipo": "forza", "fase_sessione": [4], "attrezzatura": ["macchina"], "difficolta": 2, "note": "Spingi ginocchia verso esterno"},
+    {"id": "glu_for_08", "name": "Single leg squat / step-down", "category": "forza", "distretto": "glutei_medio", "tipo": "forza", "fase_sessione": [3, 4], "attrezzatura": [], "difficolta": 3, "note": "Controllo bacino in appoggio monopodalico"},
+    {"id": "glu_for_09", "name": "Copenhagen plank", "category": "forza", "distretto": "glutei_adduttori", "tipo": "forza", "fase_sessione": [4], "attrezzatura": ["panca"], "difficolta": 4, "note": "Ponte core-anca, coinvolge adduttori"},
+    {"id": "glu_for_10", "name": "Lateral band walk", "category": "forza", "distretto": "glutei_medio", "tipo": "forza", "fase_sessione": [3, 4], "attrezzatura": ["resistance_band"], "difficolta": 2, "note": "Bande più resistenti per maggiore stimolo"},
+    {"id": "glu_for_11", "name": "Single leg stance con perturbazione", "category": "forza", "distretto": "glutei_piccolo", "tipo": "propriocezione", "fase_sessione": [3, 4], "attrezzatura": [], "difficolta": 3, "note": "Bacino stabile nonostante perturbazioni"},
+    {"id": "glu_for_12", "name": "Step-down controllato", "category": "forza", "distretto": "glutei_piccolo", "tipo": "controllo_motorio", "fase_sessione": [3, 4], "attrezzatura": [], "difficolta": 3, "note": "Evita collasso ginocchio verso interno"},
+    {"id": "glu_for_13", "name": "Side plank con abduzione gamba superiore", "category": "forza", "distretto": "glutei_piccolo", "tipo": "forza", "fase_sessione": [3, 4], "attrezzatura": [], "difficolta": 3, "note": "Mantieni corpo allineato"},
+
+    // ─── QUADRICIPITI ─────────────────────────────────────────────────────────
+
+    {"id": "quad_01", "name": "Leg extension macchina", "category": "forza", "distretto": "quadricipiti", "tipo": "forza_OKC", "fase_sessione": [4], "attrezzatura": ["macchina"], "difficolta": 2, "note": "OKC: 90-40° (evitare 0-40° post-ACLR)"},
+    {"id": "quad_02", "name": "Sissy squat", "category": "forza", "distretto": "quadricipiti", "tipo": "forza_OKC", "fase_sessione": [4], "attrezzatura": [], "difficolta": 3, "note": "Fletti indietro mantenendo ginocchia in linea"},
+    {"id": "quad_03", "name": "Spanish squat con banda", "category": "forza", "distretto": "quadricipiti", "tipo": "isometria", "fase_sessione": [2, 4], "attrezzatura": ["resistance_band"], "difficolta": 2, "note": "Banda dietro ginocchia, torso eretto"},
+    {"id": "quad_04", "name": "Nordic curl inverso (reverse nordic)", "category": "forza", "distretto": "quadricipiti", "tipo": "forza_OKC", "fase_sessione": [4], "attrezzatura": [], "difficolta": 4, "note": "Controlla discesa con quadricipiti"},
+    {"id": "quad_05", "name": "Wall sit", "category": "forza", "distretto": "quadricipiti", "tipo": "isometria", "fase_sessione": [2, 4], "attrezzatura": [], "difficolta": 2, "note": "Posizione isometrica schiena contro muro"},
+    {"id": "quad_06", "name": "Back squat", "category": "forza", "distretto": "quad_glutei", "tipo": "forza_CKC", "fase_sessione": [4], "attrezzatura": ["bilanciere"], "difficolta": 4, "note": "Piegamento anca e ginocchio"},
+    {"id": "quad_07", "name": "Affondi (lunge)", "category": "forza", "distretto": "quad_glutei", "tipo": "forza_CKC", "fase_sessione": [3, 4], "attrezzatura": ["manubri"], "difficolta": 3, "note": "Avanzamento con piegamento anca e ginocchio"},
+    {"id": "quad_08", "name": "Step-up", "category": "forza", "distretto": "quad_glutei", "tipo": "forza_CKC", "fase_sessione": [3, 4], "attrezzatura": ["step", "manubri"], "difficolta": 2, "note": "Spinta attraverso il tallone"},
+    {"id": "quad_09", "name": "Leg press angoli aperti", "category": "forza", "distretto": "quad_glutei", "tipo": "forza_CKC", "fase_sessione": [3, 4], "attrezzatura": ["macchina"], "difficolta": 2, "note": "Maggiore coinvolgimento glutei e ischiocrurali"},
+    {"id": "quad_10", "name": "Bulgarian split squat", "category": "forza", "distretto": "quad_glutei", "tipo": "forza_CKC", "fase_sessione": [4], "attrezzatura": ["manubri", "panca"], "difficolta": 4, "note": "Squat monopodalico con maggiore richiesta stabilità"},
+    {"id": "quad_11", "name": "Hack squat", "category": "forza", "distretto": "quadricipiti", "tipo": "forza_CKC", "fase_sessione": [4], "attrezzatura": ["macchina"], "difficolta": 3, "note": "Enfasi quadricipiti con maggiore stabilità tronco"},
+
+    // ─── ISCHIOCRURALI ────────────────────────────────────────────────────────
+
+    {"id": "ischio_01", "name": "Leg curl macchina", "category": "forza", "distretto": "ischiocrurali", "tipo": "forza_OKC", "fase_sessione": [3, 4], "attrezzatura": ["macchina"], "difficolta": 2, "note": "Flessione ginocchio contro resistenza"},
+    {"id": "ischio_02", "name": "Nordic hamstring curl", "category": "forza", "distretto": "ischiocrurali", "tipo": "forza_eccentrica", "fase_sessione": [4], "attrezzatura": [], "difficolta": 4, "note": "Eccentrico: controlla discesa con femorali"},
+    {"id": "ischio_03", "name": "Slider leg curl", "category": "forza", "distretto": "ischiocrurali", "tipo": "forza_eccentrica", "fase_sessione": [3, 4], "attrezzatura": ["slider"], "difficolta": 3, "note": "Scivola talloni verso glutei flettendo ginocchia"},
+    {"id": "ischio_04", "name": "Swiss ball leg curl", "category": "forza", "distretto": "ischiocrurali", "tipo": "forza", "fase_sessione": [3, 4], "attrezzatura": ["fitball"], "difficolta": 3, "note": "Flette ginocchia portando palla verso glutei"},
+    {"id": "ischio_05", "name": "Stacco da terra (deadlift)", "category": "forza", "distretto": "ischio_glutei", "tipo": "forza_CKC", "fase_sessione": [4], "attrezzatura": ["bilanciere"], "difficolta": 4, "note": "Estensione anca e ginocchio con femorali e glutei"},
+    {"id": "ischio_06", "name": "Romanian deadlift (RDL)", "category": "forza", "distretto": "ischiocrurali", "tipo": "forza_eccentrica", "fase_sessione": [4], "attrezzatura": ["bilanciere", "manubri"], "difficolta": 3, "note": "Piegamento anca con ginocchia leggermente flesse"},
+    {"id": "ischio_07", "name": "Good morning", "category": "forza", "distretto": "ischiocrurali", "tipo": "forza", "fase_sessione": [4], "attrezzatura": ["bilanciere"], "difficolta": 3, "note": "Piegamento avanti anca, schiena neutra"},
+    {"id": "ischio_08", "name": "Hip thrust / glute bridge", "category": "forza", "distretto": "ischio_glutei", "tipo": "forza", "fase_sessione": [3, 4], "attrezzatura": ["bilanciere", "panca"], "difficolta": 3, "note": "Estensione anca: attiva glutei e ischiocrurali"},
+    {"id": "ischio_09", "name": "Back extension / hyperextension", "category": "forza", "distretto": "ischiocrurali", "tipo": "forza", "fase_sessione": [3, 4], "attrezzatura": ["roman_chair"], "difficolta": 3, "note": "Estensione tronco con enfasi catena posteriore"},
+    {"id": "ischio_10", "name": "Single leg RDL", "category": "forza", "distretto": "ischiocrurali", "tipo": "forza_propriocezione", "fase_sessione": [3, 4], "attrezzatura": ["manubri"], "difficolta": 3, "note": "Piegamento su una gamba: equilibrio e attivazione"},
+
+    // ─── CORE ROTAZIONALE ─────────────────────────────────────────────────────
+
+    {"id": "core_rot_01", "name": "Russian twist a corpo libero", "category": "forza", "distretto": "core_obliqui", "tipo": "attivazione_rotazionale", "fase_sessione": [3], "attrezzatura": [], "difficolta": 1, "note": "Basso carico, movimento controllato del tronco"},
+    {"id": "core_rot_02", "name": "Standing trunk rotation con bastone", "category": "forza", "distretto": "core_obliqui", "tipo": "attivazione_rotazionale", "fase_sessione": [1, 3], "attrezzatura": ["bastone"], "difficolta": 1, "note": "Ruota tronco con controllo, bacino stabile"},
+    {"id": "core_rot_03", "name": "Cable rotation leggero", "category": "forza", "distretto": "core_obliqui", "tipo": "attivazione_rotazionale", "fase_sessione": [3], "attrezzatura": ["cavo"], "difficolta": 2, "note": "Rotazione controllata dal centro verso esterno"},
+    {"id": "core_rot_04", "name": "Woodchopper alto-basso", "category": "forza", "distretto": "core_obliqui", "tipo": "forza_rotazionale", "fase_sessione": [4], "attrezzatura": ["cavo"], "difficolta": 3, "note": "Carico progressivo, traiettoria diagonale alto-basso"},
+    {"id": "core_rot_05", "name": "Woodchopper basso-alto", "category": "forza", "distretto": "core_obliqui", "tipo": "forza_rotazionale", "fase_sessione": [4], "attrezzatura": ["cavo"], "difficolta": 3, "note": "Carico progressivo, traiettoria diagonale basso-alto"},
+    {"id": "core_rot_06", "name": "Landmine rotation", "category": "forza", "distretto": "core_obliqui", "tipo": "forza_rotazionale", "fase_sessione": [4], "attrezzatura": ["bilanciere", "landmine"], "difficolta": 3, "note": "Ruota tronco guidando il bilanciere in landmine"},
+    {"id": "core_rot_07", "name": "Medicine ball rotational throw", "category": "forza", "distretto": "core_obliqui", "tipo": "potenza_rotazionale", "fase_sessione": [4], "attrezzatura": ["palla_medica"], "difficolta": 4, "note": "Componente esplosiva e di potenza rotazionale"},
+
+    // ─── CORE ANTI-ROTAZIONALE ────────────────────────────────────────────────
+
+    {"id": "core_anti_01", "name": "Pallof press", "category": "forza", "distretto": "core_antirot", "tipo": "attivazione_antirotazionale", "fase_sessione": [2, 3], "attrezzatura": ["cavo", "resistance_band"], "difficolta": 2, "note": "Spingi in avanti e resisti alla rotazione"},
+    {"id": "core_anti_02", "name": "Dead bug", "category": "forza", "distretto": "core_antirot", "tipo": "attivazione", "fase_sessione": [2, 3], "attrezzatura": [], "difficolta": 2, "note": "Alterna braccio e gamba mantenendo core stabile"},
+    {"id": "core_anti_03", "name": "Bird dog (core)", "category": "forza", "distretto": "core_antirot", "tipo": "attivazione", "fase_sessione": [2, 3], "attrezzatura": [], "difficolta": 2, "note": "Estendi controlateralmente senza perdere stabilità"},
+    {"id": "core_anti_04", "name": "Pallof press con carico crescente", "category": "forza", "distretto": "core_antirot", "tipo": "forza_antirotazionale", "fase_sessione": [4], "attrezzatura": ["cavo"], "difficolta": 3, "note": "Aumenta gradualmente carico mantenendo tronco fermo"},
+    {"id": "core_anti_05", "name": "Walking Pallof press", "category": "forza", "distretto": "core_antirot", "tipo": "forza_antirotazionale", "fase_sessione": [4], "attrezzatura": ["cavo"], "difficolta": 3, "note": "Cammina mantenendo braccia in estensione"},
+    {"id": "core_anti_06", "name": "Single-arm carry (farmers walk asimmetrico)", "category": "forza", "distretto": "core_antirot", "tipo": "forza_antirotazionale", "fase_sessione": [4], "attrezzatura": ["kettlebell", "manubrio"], "difficolta": 3, "note": "Il tronco resiste alla rotazione indotta dal carico asimmetrico"},
+    {"id": "core_anti_07", "name": "Landmine anti-rotation press", "category": "forza", "distretto": "core_antirot", "tipo": "forza_antirotazionale", "fase_sessione": [4], "attrezzatura": ["bilanciere", "landmine"], "difficolta": 4, "note": "Spingi in avanti resistendo alla rotazione"},
+
+    // ─── CORE LATERALE ────────────────────────────────────────────────────────
+
+    {"id": "core_lat_01", "name": "Side plank a ginocchia flesse", "category": "forza", "distretto": "core_laterale", "tipo": "isometria", "fase_sessione": [2, 3], "attrezzatura": [], "difficolta": 1, "note": "Tenuta base con appoggio sulle ginocchia"},
+    {"id": "core_lat_02", "name": "Side plank completo", "category": "forza", "distretto": "core_laterale", "tipo": "isometria", "fase_sessione": [2, 3], "attrezzatura": [], "difficolta": 2, "note": "Tenuta breve in allineamento laterale"},
+    {"id": "core_lat_03", "name": "Side plank con carico", "category": "forza", "distretto": "core_laterale", "tipo": "forza_isometrica", "fase_sessione": [4], "attrezzatura": ["disco"], "difficolta": 3, "note": "Hold prolungato o carico aggiuntivo"},
+    {"id": "core_lat_04", "name": "Suitcase carry", "category": "forza", "distretto": "core_laterale", "tipo": "forza", "fase_sessione": [4], "attrezzatura": ["kettlebell", "manubrio"], "difficolta": 3, "note": "Carico laterale sfida stabilità tronco sul piano frontale"},
+    {"id": "core_lat_05", "name": "Copenhagen plank (laterale)", "category": "forza", "distretto": "core_adduttori", "tipo": "forza_isometrica", "fase_sessione": [4], "attrezzatura": ["panca"], "difficolta": 4, "note": "Ponte core-anca, coinvolge adduttori"},
+
+    // ─── CORE FLESSIONE ───────────────────────────────────────────────────────
+
+    {"id": "core_fle_01", "name": "McGill curl-up", "category": "forza", "distretto": "core_flessione", "tipo": "attivazione", "fase_sessione": [2, 3], "attrezzatura": [], "difficolta": 1, "note": "Focus su non iperflettere il collo"},
+    {"id": "core_fle_02", "name": "Reverse crunch leggero", "category": "forza", "distretto": "core_flessione", "tipo": "forza", "fase_sessione": [3, 4], "attrezzatura": [], "difficolta": 2, "note": "Movimento controllato, bacino che sale senza slancio"},
+    {"id": "core_fle_03", "name": "Hanging leg raise / knee raise", "category": "forza", "distretto": "core_flessione", "tipo": "forza", "fase_sessione": [4], "attrezzatura": ["sbarra"], "difficolta": 4, "note": "Eleva ginocchia o gambe mantenendo il controllo"},
+    {"id": "core_fle_04", "name": "Cable crunch", "category": "forza", "distretto": "core_flessione", "tipo": "forza", "fase_sessione": [4], "attrezzatura": ["cavo"], "difficolta": 3, "note": "Crunch al cavo con carico progressivo"},
+    {"id": "core_fle_05", "name": "Weighted sit-up", "category": "forza", "distretto": "core_flessione", "tipo": "forza", "fase_sessione": [4], "attrezzatura": ["disco", "manubrio"], "difficolta": 3, "note": "Sit-up con sovraccarico, assenza controindicazioni lombari"},
+
+    // ─── BOSU QUADRICIPITI ────────────────────────────────────────────────────
+
+    {"id": "bosu_q_01", "name": "Mini squat bipodalico su BOSU cupola in su", "category": "bosu", "distretto": "quadricipiti", "tipo": "propriocezione_forza", "fase_sessione": [3], "attrezzatura": ["bosu"], "difficolta": 1},
+    {"id": "bosu_q_02", "name": "Mini squat bipodalico su BOSU cupola in giù", "category": "bosu", "distretto": "quadricipiti", "tipo": "propriocezione_forza", "fase_sessione": [3], "attrezzatura": ["bosu"], "difficolta": 2},
+    {"id": "bosu_q_03", "name": "Squat completo bipodalico su BOSU", "category": "bosu", "distretto": "quadricipiti", "tipo": "forza_propriocezione", "fase_sessione": [3, 4], "attrezzatura": ["bosu"], "difficolta": 2},
+    {"id": "bosu_q_04", "name": "Squat isometrico su BOSU", "category": "bosu", "distretto": "quadricipiti", "tipo": "isometria", "fase_sessione": [2, 3], "attrezzatura": ["bosu"], "difficolta": 2},
+    {"id": "bosu_q_05", "name": "Squat monopodalico assistito su BOSU", "category": "bosu", "distretto": "quadricipiti", "tipo": "propriocezione_forza", "fase_sessione": [3], "attrezzatura": ["bosu"], "difficolta": 3},
+    {"id": "bosu_q_06", "name": "Squat monopodalico libero su BOSU", "category": "bosu", "distretto": "quadricipiti", "tipo": "forza_propriocezione", "fase_sessione": [3, 4], "attrezzatura": ["bosu"], "difficolta": 4},
+    {"id": "bosu_q_07", "name": "Squat monopodalico su BOSU con perturbazione", "category": "bosu", "distretto": "quadricipiti", "tipo": "propriocezione_avanzata", "fase_sessione": [4], "attrezzatura": ["bosu", "palla_medica"], "difficolta": 5},
+    {"id": "bosu_q_08", "name": "Affondo statico con piede anteriore su BOSU", "category": "bosu", "distretto": "quadricipiti", "tipo": "forza_propriocezione", "fase_sessione": [3, 4], "attrezzatura": ["bosu"], "difficolta": 3},
+    {"id": "bosu_q_09", "name": "Affondo statico con piede posteriore su BOSU", "category": "bosu", "distretto": "quadricipiti", "tipo": "forza_propriocezione", "fase_sessione": [3, 4], "attrezzatura": ["bosu"], "difficolta": 3},
+    {"id": "bosu_q_10", "name": "Affondo camminato con appoggio su BOSU", "category": "bosu", "distretto": "quadricipiti", "tipo": "forza_dinamica", "fase_sessione": [4], "attrezzatura": ["bosu"], "difficolta": 4},
+    {"id": "bosu_q_11", "name": "Bulgarian split squat con piede posteriore su BOSU", "category": "bosu", "distretto": "quadricipiti", "tipo": "forza_propriocezione", "fase_sessione": [4], "attrezzatura": ["bosu", "manubri"], "difficolta": 4},
+    {"id": "bosu_q_12", "name": "Step-up su BOSU", "category": "bosu", "distretto": "quadricipiti", "tipo": "forza_dinamica", "fase_sessione": [3, 4], "attrezzatura": ["bosu"], "difficolta": 2},
+    {"id": "bosu_q_13", "name": "Step-down da BOSU", "category": "bosu", "distretto": "quadricipiti", "tipo": "controllo_eccentrico", "fase_sessione": [3, 4], "attrezzatura": ["bosu"], "difficolta": 3},
+    {"id": "bosu_q_14", "name": "Wall sit con piedi su BOSU", "category": "bosu", "distretto": "quadricipiti", "tipo": "isometria", "fase_sessione": [2, 3], "attrezzatura": ["bosu"], "difficolta": 3},
+    {"id": "bosu_q_15", "name": "Squat jump su BOSU atterraggio controllato", "category": "bosu", "distretto": "quadricipiti", "tipo": "pliometria", "fase_sessione": [4], "attrezzatura": ["bosu"], "difficolta": 4},
+    {"id": "bosu_q_16", "name": "Pistol squat assistito su BOSU", "category": "bosu", "distretto": "quadricipiti", "tipo": "forza_avanzata", "fase_sessione": [4], "attrezzatura": ["bosu"], "difficolta": 5},
+    {"id": "bosu_q_17", "name": "Affondo su BOSU + lancio palla medica frontale", "category": "bosu", "distretto": "quadricipiti_core", "tipo": "sport_specifico", "fase_sessione": [4], "attrezzatura": ["bosu", "palla_medica"], "difficolta": 4},
+    {"id": "bosu_q_18", "name": "Affondo su BOSU + lancio palla medica rotazionale", "category": "bosu", "distretto": "quadricipiti_core", "tipo": "sport_specifico", "fase_sessione": [4], "attrezzatura": ["bosu", "palla_medica"], "difficolta": 5},
+    {"id": "bosu_q_19", "name": "Squat monopodalico su BOSU + overhead throw", "category": "bosu", "distretto": "quadricipiti_core", "tipo": "sport_specifico", "fase_sessione": [4], "attrezzatura": ["bosu", "palla_medica"], "difficolta": 5},
+    {"id": "bosu_q_20", "name": "Squat bipodalico su BOSU + rotazione tronco palla medica", "category": "bosu", "distretto": "quadricipiti_core", "tipo": "sport_specifico", "fase_sessione": [4], "attrezzatura": ["bosu", "palla_medica"], "difficolta": 4},
+
+    // ─── BOSU ISCHIOCRURALI ───────────────────────────────────────────────────
+
+    {"id": "bosu_i_01", "name": "Glute-hamstring bridge bipodalico su BOSU", "category": "bosu", "distretto": "ischiocrurali", "tipo": "attivazione", "fase_sessione": [2, 3], "attrezzatura": ["bosu"], "difficolta": 1},
+    {"id": "bosu_i_02", "name": "Bridge monopodalico su BOSU", "category": "bosu", "distretto": "ischiocrurali", "tipo": "forza_propriocezione", "fase_sessione": [3], "attrezzatura": ["bosu"], "difficolta": 2},
+    {"id": "bosu_i_03", "name": "Bridge con marcia su BOSU", "category": "bosu", "distretto": "ischiocrurali", "tipo": "forza_dinamica", "fase_sessione": [3], "attrezzatura": ["bosu"], "difficolta": 3},
+    {"id": "bosu_i_04", "name": "Hamstring curl eccentrico su BOSU rovesciato", "category": "bosu", "distretto": "ischiocrurali", "tipo": "forza_eccentrica", "fase_sessione": [4], "attrezzatura": ["bosu"], "difficolta": 4},
+    {"id": "bosu_i_05", "name": "RDL bipodalico con piedi su BOSU", "category": "bosu", "distretto": "ischiocrurali", "tipo": "forza_propriocezione", "fase_sessione": [3, 4], "attrezzatura": ["bosu", "manubri"], "difficolta": 3},
+    {"id": "bosu_i_06", "name": "RDL monopodalico con piede su BOSU", "category": "bosu", "distretto": "ischiocrurali", "tipo": "forza_propriocezione", "fase_sessione": [4], "attrezzatura": ["bosu", "manubri"], "difficolta": 4},
+    {"id": "bosu_i_07", "name": "RDL monopodalico su BOSU con pallone", "category": "bosu", "distretto": "ischiocrurali", "tipo": "sport_specifico", "fase_sessione": [4], "attrezzatura": ["bosu", "palla_medica"], "difficolta": 5},
+    {"id": "bosu_i_08", "name": "Good morning monopodalico su BOSU", "category": "bosu", "distretto": "ischiocrurali", "tipo": "forza_propriocezione", "fase_sessione": [4], "attrezzatura": ["bosu"], "difficolta": 4},
+    {"id": "bosu_i_09", "name": "Nordic curl assistito con ginocchia su BOSU", "category": "bosu", "distretto": "ischiocrurali", "tipo": "forza_eccentrica", "fase_sessione": [4], "attrezzatura": ["bosu"], "difficolta": 4},
+    {"id": "bosu_i_10", "name": "Single leg deadlift con reach su BOSU", "category": "bosu", "distretto": "ischiocrurali", "tipo": "propriocezione_avanzata", "fase_sessione": [4], "attrezzatura": ["bosu"], "difficolta": 4},
+    {"id": "bosu_i_11", "name": "RDL monopodalico su BOSU + lancio palla medica", "category": "bosu", "distretto": "ischiocrurali_core", "tipo": "sport_specifico", "fase_sessione": [4], "attrezzatura": ["bosu", "palla_medica"], "difficolta": 5},
+    {"id": "bosu_i_12", "name": "Bridge monopodalico su BOSU + torsione palla medica", "category": "bosu", "distretto": "ischiocrurali_core", "tipo": "sport_specifico", "fase_sessione": [4], "attrezzatura": ["bosu", "palla_medica"], "difficolta": 5},
+
+    // ─── BOSU GLUTEI ──────────────────────────────────────────────────────────
+
+    {"id": "bosu_g_01", "name": "Glute bridge bipodalico su BOSU", "category": "bosu", "distretto": "glutei", "tipo": "attivazione", "fase_sessione": [2, 3], "attrezzatura": ["bosu"], "difficolta": 1},
+    {"id": "bosu_g_02", "name": "Glute bridge monopodalico su BOSU", "category": "bosu", "distretto": "glutei", "tipo": "forza_propriocezione", "fase_sessione": [3], "attrezzatura": ["bosu"], "difficolta": 2},
+    {"id": "bosu_g_03", "name": "Hip thrust con scapole su BOSU", "category": "bosu", "distretto": "glutei", "tipo": "forza", "fase_sessione": [3, 4], "attrezzatura": ["bosu", "bilanciere"], "difficolta": 3},
+    {"id": "bosu_g_04", "name": "Clam shell in decubito laterale su BOSU", "category": "bosu", "distretto": "glutei_medio", "tipo": "attivazione", "fase_sessione": [2, 3], "attrezzatura": ["bosu"], "difficolta": 2},
+    {"id": "bosu_g_05", "name": "Side-lying hip abduction con bacino su BOSU", "category": "bosu", "distretto": "glutei_medio", "tipo": "attivazione", "fase_sessione": [2, 3], "attrezzatura": ["bosu"], "difficolta": 2},
+    {"id": "bosu_g_06", "name": "Single leg stance su BOSU statico", "category": "bosu", "distretto": "glutei_piccolo", "tipo": "propriocezione", "fase_sessione": [3], "attrezzatura": ["bosu"], "difficolta": 2},
+    {"id": "bosu_g_07", "name": "Single leg stance su BOSU con oscillazione arto libero", "category": "bosu", "distretto": "glutei_piccolo", "tipo": "propriocezione", "fase_sessione": [3], "attrezzatura": ["bosu"], "difficolta": 3},
+    {"id": "bosu_g_08", "name": "Single leg stance su BOSU occhi chiusi", "category": "bosu", "distretto": "glutei_piccolo", "tipo": "propriocezione_avanzata", "fase_sessione": [3, 4], "attrezzatura": ["bosu"], "difficolta": 4},
+    {"id": "bosu_g_09", "name": "Step-down da BOSU (gluteo)", "category": "bosu", "distretto": "glutei_piccolo", "tipo": "controllo_motorio", "fase_sessione": [3, 4], "attrezzatura": ["bosu"], "difficolta": 3},
+    {"id": "bosu_g_10", "name": "Step-up su BOSU (gluteo)", "category": "bosu", "distretto": "glutei", "tipo": "forza_dinamica", "fase_sessione": [3, 4], "attrezzatura": ["bosu"], "difficolta": 2},
+    {"id": "bosu_g_11", "name": "Single leg squat su BOSU", "category": "bosu", "distretto": "glutei_quad", "tipo": "forza_propriocezione", "fase_sessione": [4], "attrezzatura": ["bosu"], "difficolta": 4},
+    {"id": "bosu_g_12", "name": "Single leg squat su BOSU + ricezione pallone", "category": "bosu", "distretto": "glutei_quad", "tipo": "sport_specifico", "fase_sessione": [4], "attrezzatura": ["bosu", "palla_medica"], "difficolta": 5},
+    {"id": "bosu_g_13", "name": "Monster walk con banda sopra BOSU", "category": "bosu", "distretto": "glutei_medio", "tipo": "forza_propriocezione", "fase_sessione": [3, 4], "attrezzatura": ["bosu", "resistance_band"], "difficolta": 3},
+    {"id": "bosu_g_14", "name": "Fire hydrant con arto d'appoggio su BOSU", "category": "bosu", "distretto": "glutei_medio", "tipo": "attivazione_avanzata", "fase_sessione": [3], "attrezzatura": ["bosu"], "difficolta": 3},
+    {"id": "bosu_g_15", "name": "Standing banded hip external rotation in equilibrio su BOSU", "category": "bosu", "distretto": "glutei_medio", "tipo": "forza_propriocezione", "fase_sessione": [3, 4], "attrezzatura": ["bosu", "resistance_band"], "difficolta": 4},
+    {"id": "bosu_g_16", "name": "Single leg squat su BOSU + lancio rotazionale", "category": "bosu", "distretto": "glutei_core", "tipo": "sport_specifico", "fase_sessione": [4], "attrezzatura": ["bosu", "palla_medica"], "difficolta": 5},
+    {"id": "bosu_g_17", "name": "Step-up su BOSU + palla medica overhead", "category": "bosu", "distretto": "glutei_core", "tipo": "sport_specifico", "fase_sessione": [4], "attrezzatura": ["bosu", "palla_medica"], "difficolta": 4},
+    {"id": "bosu_g_18", "name": "Monster walk laterale su BOSU + palla medica torsione statica", "category": "bosu", "distretto": "glutei_core", "tipo": "sport_specifico", "fase_sessione": [4], "attrezzatura": ["bosu", "resistance_band", "palla_medica"], "difficolta": 5},
+
+    // ─── BOSU CORE / ADDOME ───────────────────────────────────────────────────
+
+    {"id": "bosu_c_01", "name": "Plank avambracci su BOSU", "category": "bosu", "distretto": "core", "tipo": "isometria", "fase_sessione": [2, 3], "attrezzatura": ["bosu"], "difficolta": 2},
+    {"id": "bosu_c_02", "name": "Plank con piedi su BOSU", "category": "bosu", "distretto": "core", "tipo": "isometria", "fase_sessione": [2, 3], "attrezzatura": ["bosu"], "difficolta": 2},
+    {"id": "bosu_c_03", "name": "Side plank con gomito su BOSU", "category": "bosu", "distretto": "core_laterale", "tipo": "isometria", "fase_sessione": [2, 3], "attrezzatura": ["bosu"], "difficolta": 3},
+    {"id": "bosu_c_04", "name": "Side plank con piede su BOSU", "category": "bosu", "distretto": "core_laterale", "tipo": "isometria", "fase_sessione": [2, 3], "attrezzatura": ["bosu"], "difficolta": 3},
+    {"id": "bosu_c_05", "name": "Dead bug con schiena su BOSU", "category": "bosu", "distretto": "core", "tipo": "attivazione", "fase_sessione": [2, 3], "attrezzatura": ["bosu"], "difficolta": 2},
+    {"id": "bosu_c_06", "name": "Bird dog con appoggi su BOSU", "category": "bosu", "distretto": "core", "tipo": "attivazione", "fase_sessione": [2, 3], "attrezzatura": ["bosu"], "difficolta": 3},
+    {"id": "bosu_c_07", "name": "Pallof press bipodalico su BOSU", "category": "bosu", "distretto": "core_antirot", "tipo": "forza_propriocezione", "fase_sessione": [3, 4], "attrezzatura": ["bosu", "cavo"], "difficolta": 3},
+    {"id": "bosu_c_08", "name": "Pallof press monopodalico su BOSU", "category": "bosu", "distretto": "core_antirot", "tipo": "forza_propriocezione", "fase_sessione": [4], "attrezzatura": ["bosu", "cavo"], "difficolta": 4},
+    {"id": "bosu_c_09", "name": "Russian twist seduto su BOSU", "category": "bosu", "distretto": "core_obliqui", "tipo": "forza_rotazionale", "fase_sessione": [3, 4], "attrezzatura": ["bosu", "palla_medica"], "difficolta": 3},
+    {"id": "bosu_c_10", "name": "Curl-up McGill con schiena su BOSU", "category": "bosu", "distretto": "core", "tipo": "attivazione", "fase_sessione": [2, 3], "attrezzatura": ["bosu"], "difficolta": 1},
+    {"id": "bosu_c_11", "name": "Reverse crunch con bacino su BOSU", "category": "bosu", "distretto": "core", "tipo": "forza", "fase_sessione": [3, 4], "attrezzatura": ["bosu"], "difficolta": 2},
+    {"id": "bosu_c_12", "name": "Mountain climber con mani su BOSU", "category": "bosu", "distretto": "core", "tipo": "forza_dinamica", "fase_sessione": [4], "attrezzatura": ["bosu"], "difficolta": 3},
+    {"id": "bosu_c_13", "name": "Push-up plank con mani su BOSU", "category": "bosu", "distretto": "core_treno_sup", "tipo": "forza", "fase_sessione": [4], "attrezzatura": ["bosu"], "difficolta": 3},
+    {"id": "bosu_c_14", "name": "Squat/affondo monopodalico su BOSU + rotazione medicine ball", "category": "bosu", "distretto": "core_quad", "tipo": "sport_specifico", "fase_sessione": [4], "attrezzatura": ["bosu", "palla_medica"], "difficolta": 5},
+    {"id": "bosu_c_15", "name": "Stir the pot con avambracci su BOSU", "category": "bosu", "distretto": "core", "tipo": "forza_isometrica", "fase_sessione": [4], "attrezzatura": ["bosu"], "difficolta": 4},
+    {"id": "bosu_c_16", "name": "Affondo + lancio palla medica rotazionale", "category": "bosu", "distretto": "core_quad", "tipo": "sport_specifico", "fase_sessione": [4], "attrezzatura": ["bosu", "palla_medica"], "difficolta": 5},
+    {"id": "bosu_c_17", "name": "Squat monopodalico su BOSU + rotazione tronco palla medica", "category": "bosu", "distretto": "core_quad", "tipo": "sport_specifico", "fase_sessione": [4], "attrezzatura": ["bosu", "palla_medica"], "difficolta": 5},
+    {"id": "bosu_c_18", "name": "Pallof press monopodalico su BOSU con palla medica", "category": "bosu", "distretto": "core_antirot", "tipo": "sport_specifico", "fase_sessione": [4], "attrezzatura": ["bosu", "cavo", "palla_medica"], "difficolta": 5},
+    {"id": "bosu_c_19", "name": "Standing woodchopper alto-basso su BOSU monopodalico", "category": "bosu", "distretto": "core_obliqui", "tipo": "sport_specifico", "fase_sessione": [4], "attrezzatura": ["bosu", "cavo"], "difficolta": 5},
+    {"id": "bosu_c_20", "name": "Standing woodchopper basso-alto su BOSU monopodalico", "category": "bosu", "distretto": "core_obliqui", "tipo": "sport_specifico", "fase_sessione": [4], "attrezzatura": ["bosu", "cavo"], "difficolta": 5},
+    {"id": "bosu_c_21", "name": "Lancio palla medica contro parete in singolo appoggio su BOSU", "category": "bosu", "distretto": "core_treno_sup", "tipo": "sport_specifico", "fase_sessione": [4], "attrezzatura": ["bosu", "palla_medica"], "difficolta": 5},
+    {"id": "bosu_c_22", "name": "Overhead slam palla medica in equilibrio su BOSU", "category": "bosu", "distretto": "core", "tipo": "potenza", "fase_sessione": [4], "attrezzatura": ["bosu", "palla_medica"], "difficolta": 5},
+
+    // ─── PLIOMETRIA QUADRICIPITI ──────────────────────────────────────────────
+
+    {"id": "plio_q_01", "name": "Squat jump (salto fermo senza contromovimento)", "category": "pliometria", "distretto": "quadricipiti", "tipo": "a_carattere_pliometrico", "fase_sessione": [4], "attrezzatura": [], "difficolta": 3},
+    {"id": "plio_q_02", "name": "Squat jump con pausa isometrica in basso", "category": "pliometria", "distretto": "quadricipiti", "tipo": "a_carattere_pliometrico", "fase_sessione": [4], "attrezzatura": [], "difficolta": 3},
+    {"id": "plio_q_03", "name": "Box jump da rialzo basso", "category": "pliometria", "distretto": "quadricipiti", "tipo": "a_carattere_pliometrico", "fase_sessione": [4], "attrezzatura": ["box"], "difficolta": 3},
+    {"id": "plio_q_04", "name": "Box jump da rialzo medio-alto", "category": "pliometria", "distretto": "quadricipiti", "tipo": "a_carattere_pliometrico", "fase_sessione": [4], "attrezzatura": ["box"], "difficolta": 4},
+    {"id": "plio_q_05", "name": "Jump to box con atterraggio in squat hold", "category": "pliometria", "distretto": "quadricipiti", "tipo": "a_carattere_pliometrico", "fase_sessione": [4], "attrezzatura": ["box"], "difficolta": 4},
+    {"id": "plio_q_06", "name": "Step-up esplosivo con ginocchio al petto", "category": "pliometria", "distretto": "quadricipiti", "tipo": "a_carattere_pliometrico", "fase_sessione": [4], "attrezzatura": ["box"], "difficolta": 3},
+    {"id": "plio_q_07", "name": "Step-up esplosivo con caprioccio", "category": "pliometria", "distretto": "quadricipiti", "tipo": "a_carattere_pliometrico", "fase_sessione": [4], "attrezzatura": ["box"], "difficolta": 3},
+    {"id": "plio_q_08", "name": "Affondo con salto (jump lunge alternato)", "category": "pliometria", "distretto": "quadricipiti", "tipo": "a_carattere_pliometrico", "fase_sessione": [4], "attrezzatura": [], "difficolta": 4},
+    {"id": "plio_q_09", "name": "Affondo con salto stesso arto ripetuto", "category": "pliometria", "distretto": "quadricipiti", "tipo": "a_carattere_pliometrico", "fase_sessione": [4], "attrezzatura": [], "difficolta": 4},
+    {"id": "plio_q_10", "name": "Broad jump (salto in lungo da fermo)", "category": "pliometria", "distretto": "quadricipiti", "tipo": "a_carattere_pliometrico", "fase_sessione": [4], "attrezzatura": [], "difficolta": 3},
+    {"id": "plio_q_11", "name": "Broad jump ripetuto (tenta pausa tra i salti)", "category": "pliometria", "distretto": "quadricipiti", "tipo": "a_carattere_pliometrico", "fase_sessione": [4], "attrezzatura": [], "difficolta": 4},
+    {"id": "plio_q_12", "name": "Squat jump con rotazione 180°", "category": "pliometria", "distretto": "quadricipiti", "tipo": "a_carattere_pliometrico", "fase_sessione": [4], "attrezzatura": [], "difficolta": 4},
+    {"id": "plio_q_17", "name": "Countermovement jump (CMJ) singolo", "category": "pliometria", "distretto": "quadricipiti", "tipo": "pliometria_pura", "fase_sessione": [4], "attrezzatura": [], "difficolta": 3},
+    {"id": "plio_q_18", "name": "Countermovement jump ripetuto continuo", "category": "pliometria", "distretto": "quadricipiti", "tipo": "pliometria_pura", "fase_sessione": [4], "attrezzatura": [], "difficolta": 4},
+    {"id": "plio_q_19", "name": "Drop jump da rialzo basso 15-20cm", "category": "pliometria", "distretto": "quadricipiti", "tipo": "pliometria_pura", "fase_sessione": [4], "attrezzatura": ["box"], "difficolta": 4},
+    {"id": "plio_q_20", "name": "Drop jump da rialzo medio 30cm", "category": "pliometria", "distretto": "quadricipiti", "tipo": "pliometria_pura", "fase_sessione": [4], "attrezzatura": ["box"], "difficolta": 4},
+    {"id": "plio_q_22", "name": "Depth jump con rimbalzo immediato", "category": "pliometria", "distretto": "quadricipiti", "tipo": "pliometria_pura", "fase_sessione": [4], "attrezzatura": ["box"], "difficolta": 5},
+    {"id": "plio_q_28", "name": "Pogo jump (caviglie in sinergia, quadricipiti e ischiocrurali)", "category": "pliometria", "distretto": "quadricipiti", "tipo": "pliometria_pura", "fase_sessione": [4], "attrezzatura": [], "difficolta": 3},
+    {"id": "plio_q_29", "name": "Reactive box jump", "category": "pliometria", "distretto": "quadricipiti", "tipo": "pliometria_pura", "fase_sessione": [4], "attrezzatura": ["box"], "difficolta": 5},
+    {"id": "plio_q_24", "name": "Single leg in place (rimbalzi continui monopodalici)", "category": "pliometria", "distretto": "quadricipiti", "tipo": "pliometria_pura", "fase_sessione": [4], "attrezzatura": [], "difficolta": 4},
+    {"id": "plio_q_25", "name": "Single leg hop in avanti (progressione lineare)", "category": "pliometria", "distretto": "quadricipiti", "tipo": "pliometria_pura", "fase_sessione": [4], "attrezzatura": [], "difficolta": 4},
+
+    // ─── PLIOMETRIA ISCHIOCRURALI ─────────────────────────────────────────────
+
+    {"id": "plio_i_01", "name": "Glute-ham raise esplosivo", "category": "pliometria", "distretto": "ischiocrurali", "tipo": "a_carattere_pliometrico", "fase_sessione": [4], "attrezzatura": ["roman_chair"], "difficolta": 4},
+    {"id": "plio_i_02", "name": "Nordic curl con caduta controllata e ripartenza", "category": "pliometria", "distretto": "ischiocrurali", "tipo": "a_carattere_pliometrico", "fase_sessione": [4], "attrezzatura": [], "difficolta": 5},
+    {"id": "plio_i_03", "name": "Hip thrust esplosivo", "category": "pliometria", "distretto": "ischio_glutei", "tipo": "a_carattere_pliometrico", "fase_sessione": [4], "attrezzatura": ["bilanciere", "panca"], "difficolta": 3},
+    {"id": "plio_i_04", "name": "Single leg hip thrust esplosivo", "category": "pliometria", "distretto": "ischio_glutei", "tipo": "a_carattere_pliometrico", "fase_sessione": [4], "attrezzatura": ["panca"], "difficolta": 4},
+    {"id": "plio_i_05", "name": "Kettlebell swing (componente balistica)", "category": "pliometria", "distretto": "ischio_glutei", "tipo": "a_carattere_pliometrico", "fase_sessione": [4], "attrezzatura": ["kettlebell"], "difficolta": 3},
+    {"id": "plio_i_07", "name": "Bounding con enfasi su estensione anca rapida", "category": "pliometria", "distretto": "ischiocrurali", "tipo": "pliometria_pura", "fase_sessione": [4], "attrezzatura": [], "difficolta": 4},
+    {"id": "plio_i_08", "name": "Single leg bound monopodalico in avanti", "category": "pliometria", "distretto": "ischiocrurali", "tipo": "pliometria_pura", "fase_sessione": [4], "attrezzatura": [], "difficolta": 4},
+    {"id": "plio_i_09", "name": "Single leg bound distanza progressiva", "category": "pliometria", "distretto": "ischiocrurali", "tipo": "pliometria_pura", "fase_sessione": [4], "attrezzatura": [], "difficolta": 4},
+    {"id": "plio_i_10", "name": "Hurdle hop a ostacoli bassi contatto breve", "category": "pliometria", "distretto": "ischiocrurali", "tipo": "pliometria_pura", "fase_sessione": [4], "attrezzatura": ["ostacoli"], "difficolta": 4},
+
+    // ─── PLIOMETRIA GLUTEI ────────────────────────────────────────────────────
+
+    {"id": "plio_g_01", "name": "Lateral box step-up esplosivo", "category": "pliometria", "distretto": "glutei", "tipo": "a_carattere_pliometrico", "fase_sessione": [4], "attrezzatura": ["box"], "difficolta": 3},
+    {"id": "plio_g_02", "name": "Squat jump con enfasi estensione anca", "category": "pliometria", "distretto": "glutei", "tipo": "a_carattere_pliometrico", "fase_sessione": [4], "attrezzatura": [], "difficolta": 3},
+    {"id": "plio_g_03", "name": "Hip thrust con salto (bridge jump)", "category": "pliometria", "distretto": "glutei", "tipo": "a_carattere_pliometrico", "fase_sessione": [4], "attrezzatura": ["panca"], "difficolta": 4},
+    {"id": "plio_g_08", "name": "Skater jump (lateral bound con stabilizzazione monopodalica)", "category": "pliometria", "distretto": "glutei", "tipo": "pliometria_pura", "fase_sessione": [4], "attrezzatura": [], "difficolta": 4},
+    {"id": "plio_g_10", "name": "Single leg lateral hop (rimbalzi laterali monopodalici)", "category": "pliometria", "distretto": "glutei", "tipo": "pliometria_pura", "fase_sessione": [4], "attrezzatura": [], "difficolta": 4},
+    {"id": "plio_g_11", "name": "Single leg hop and stick (salto con atterraggio e tenuta)", "category": "pliometria", "distretto": "glutei", "tipo": "pliometria_pura", "fase_sessione": [4], "attrezzatura": [], "difficolta": 4},
+    {"id": "plio_g_13", "name": "45° cutting hop", "category": "pliometria", "distretto": "glutei", "tipo": "pliometria_pura", "fase_sessione": [4], "attrezzatura": [], "difficolta": 5},
+    {"id": "plio_g_14", "name": "Cross-over bound (balzo con incrocio laterale)", "category": "pliometria", "distretto": "glutei", "tipo": "pliometria_pura", "fase_sessione": [4], "attrezzatura": [], "difficolta": 5},
+
+    // ─── PLIOMETRIA CORE / ADDOME ─────────────────────────────────────────────
+
+    {"id": "plio_c_01", "name": "Medicine ball slam", "category": "pliometria", "distretto": "core", "tipo": "a_carattere_pliometrico", "fase_sessione": [4], "attrezzatura": ["palla_medica"], "difficolta": 3},
+    {"id": "plio_c_02", "name": "Medicine ball chest pass esplosivo", "category": "pliometria", "distretto": "core_treno_sup", "tipo": "a_carattere_pliometrico", "fase_sessione": [4], "attrezzatura": ["palla_medica"], "difficolta": 3},
+    {"id": "plio_c_03", "name": "Standing rotational throw a bassa velocità", "category": "pliometria", "distretto": "core_obliqui", "tipo": "a_carattere_pliometrico", "fase_sessione": [4], "attrezzatura": ["palla_medica"], "difficolta": 3},
+    {"id": "plio_c_04", "name": "Medicine ball scoop toss (lancio dal basso verso alto)", "category": "pliometria", "distretto": "core", "tipo": "a_carattere_pliometrico", "fase_sessione": [4], "attrezzatura": ["palla_medica"], "difficolta": 3},
+    {"id": "plio_c_08", "name": "Medicine ball esplosivo (vari)", "category": "pliometria", "distretto": "core", "tipo": "pliometria_pura", "fase_sessione": [4], "attrezzatura": ["palla_medica"], "difficolta": 4},
+    {"id": "plio_c_09", "name": "Medicine ball overhead slam massima velocità", "category": "pliometria", "distretto": "core", "tipo": "pliometria_pura", "fase_sessione": [4], "attrezzatura": ["palla_medica"], "difficolta": 4},
+    {"id": "plio_c_10", "name": "Reactive medicine ball catch-and-throw immediato", "category": "pliometria", "distretto": "core_treno_sup", "tipo": "pliometria_pura", "fase_sessione": [4], "attrezzatura": ["palla_medica"], "difficolta": 5},
+    {"id": "plio_c_11", "name": "Plyo push-up (core anti-estensione + treno superiore)", "category": "pliometria", "distretto": "core_treno_sup", "tipo": "pliometria_pura", "fase_sessione": [4], "attrezzatura": [], "difficolta": 4}
+  ]
+}

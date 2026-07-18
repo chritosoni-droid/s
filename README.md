@@ -1,21 +1,58 @@
-# FisioEvidenceBot
+# FisioEvidenceBot v2
 
-Bot per fisioterapisti che genera protocolli riabilitativi completi basati **esclusivamente su evidenze scientifiche PubMed**.
+Bot per fisioterapisti che genera protocolli riabilitativi completi basati su:
+- **Evidenze scientifiche PubMed** (systematic reviews, RCT, meta-analisi)
+- **Libreria esercizi personalizzata** (205 esercizi dalle tue schede)
+- **Claude Sonnet 5 AI** per la sintesi e la personalizzazione
 
-## Cosa fa
+---
 
-Inserisci la condizione del paziente (es. *"ginocchio crociato operato 3 mesi"*, *"lesione muscolare grado 2 classificazione Monaco"*) e il bot:
+## Struttura della sessione (5 fasi)
 
-1. Cerca automaticamente su PubMed: systematic reviews, meta-analisi, RCT, studi di coorte
-2. Sintetizza le evidenze più recenti e di maggiore qualità
-3. Genera un protocollo completo strutturato in fasi con:
-   - Valutazione iniziale
-   - Fasi riabilitative (Fase 1→4)
-   - **RTP** — Return to Play
-   - **RTT** — Return to Training  
-   - **RTS** — Return to Sport
-   - Red flags e criteri di rivalutazione
-   - Bibliografia con PMID e livello di evidenza
+Ogni protocollo generato struttura le sessioni in 5 fasi evidence-based:
+
+| Fase | Nome | Durata | Contenuto |
+|---|---|---|---|
+| 🔥 **1** | Riscaldamento dinamico | 10-15 min | Mobilizzazione, warm-up cardiovascolare, esercizi dinamici |
+| 🧱 **2** | Isometria | 5-10 min | Contrazioni isometriche per riscaldare tendine/muscolo target |
+| ⚡ **3** | Attivazione specifica | 10-15 min | Attivazione neuromuscolare basso carico dei muscoli target |
+| 💪 **4** | Esercizi specifici | 20-30 min | Forza, propriocezione, BOSU, pliometria, sport-specifici |
+| 🧘 **5** | Stretching / Defaticamento | 10 min | Stretching statico, rilascio miofasciale |
+
+---
+
+## Libreria esercizi (205 esercizi totali)
+
+| Categoria | N° | Esempi |
+|---|---|---|
+| **BOSU** | 72 | Squat monopodalico su BOSU, Nordic curl su BOSU, Bridge su BOSU... |
+| **Forza** | 66 | Hip thrust, Nordic hamstring curl, Pallof press, Copenhagen plank... |
+| **Pliometria** | 46 | CMJ, Drop jump, Skater jump, Medicine ball slam... |
+| **Mobilità** | 21 | Hip CARs, 90/90 hip switch, Sleeper stretch, Open book... |
+
+Ogni esercizio è classificato per:
+- Distretto anatomico (quadricipiti, ischiocrurali, glutei, core, spalla, ecc.)
+- Tipo (attivazione, isometria, forza, propriocezione, pliometria, sport-specifico)
+- Fase di sessione (1-5)
+- Attrezzatura necessaria
+- Difficoltà (1-5)
+
+---
+
+## Patologie supportate
+
+Il bot gestisce **qualsiasi patologia fisioterapica** con letteratura su PubMed:
+
+**Ginocchio:** LCA post-operatorio, lesioni meniscali, tendinopatia rotulea, sindrome femoro-rotulea, osteoartrite  
+**Muscolare:** Lesioni ischiocrurale/quadricipite/adduttori (classificazione Monaco), contratture  
+**Caviglia/Piede:** Distorsioni laterali (gradi 1-3), tendinopatia achillea, fascite plantare  
+**Anca:** Sindrome da impingement, borsiti, lesioni labrum  
+**Colonna:** Lombalgia acuta/cronica, ernia del disco, cervicalgia, scoliosi  
+**Spalla:** Instabilità, impingement, lesioni cuffia dei rotatori, SLAP lesion  
+**Gomito:** Epicondilite laterale/mediale, tendinopatia del tricipite  
+**Multisistemiche:** Protocolli post-chirurgici, recupero atletico
+
+---
 
 ## Setup
 
@@ -23,7 +60,7 @@ Inserisci la condizione del paziente (es. *"ginocchio crociato operato 3 mesi"*,
 # 1. Installa dipendenze
 pip install requests anthropic
 
-# 2. Configura API key
+# 2. Configura API key Anthropic
 export ANTHROPIC_API_KEY="sk-ant-..."
 
 # 3. Avvia il bot
@@ -37,43 +74,54 @@ python bot.py
 python bot.py
 ```
 
-**Modalità CLI (singola condizione):**
+**Modalità CLI:**
 ```bash
-python bot.py "crociato anteriore operato terzo mese"
+python bot.py "crociato anteriore operato 3 mesi"
 python bot.py "lesione muscolare bicipite femorale grado 2 Monaco"
-python bot.py "tendinopatia rotulea"
-python bot.py "distorsione caviglia grado 2"
+python bot.py "tendinopatia achillea corridore"
+python bot.py "distorsione caviglia grado 2 calcio"
+python bot.py "lombalgia acuta"
+python bot.py "epicondilite laterale tennista"
+python bot.py "instabilità spalla post-lussazione"
 ```
 
-## Output
+## Output per ogni protocollo
 
-Il bot genera due file:
-- `output_[condizione]_[timestamp].md` — protocollo completo in Markdown
-- `output_[condizione]_[timestamp]_evidence.json` — evidenze raw da PubMed
+1. `protocollo_[condizione]_[timestamp].md` — protocollo completo Markdown
+2. `protocollo_[condizione]_[timestamp]_evidence.json` — evidenze raw PubMed
 
-## Esempi di condizioni supportate
+Il protocollo include:
+- Overview clinico + timeline di recupero
+- Sessioni strutturate in 5 fasi con ID esercizi dalla libreria
+- Progressione settimanale con criteri di avanzamento misurabili
+- RTP → RTT → RTS con criteri biometrici + funzionali + psicologici
+- Red flags per rivalutazione medica
+- Bibliografia con PMID, DOI e livello di evidenza (A/B/C)
 
-- Ricostruzione LCA (legamento crociato anteriore) — qualsiasi fase
-- Lesioni muscolari (classificazione Monaco grado 1/2/3/4)
-- Tendinopatie (rotulea, achillea, spalla)
-- Distorsioni (caviglia, ginocchio)
-- Lombalgia acuta/cronica
-- Instabilità di spalla
-- Qualsiasi condizione fisioterapica con letteratura PubMed
+---
 
 ## Architettura
 
 ```
+FisioEvidenceBot v2
+├── bot.py                   # Core del bot
+├── exercise_library.json    # 205 esercizi dalle schede
+├── esempio_crociato_3mesi.md  # Demo protocollo LCA
+└── README.md
+```
+
+```
 bot.py
-├── gather_evidence()      # 6 query PubMed mirate per condizione
-├── pubmed_search()        # E-utilities esearch API
-├── pubmed_fetch_abstracts() # E-utilities efetch API
-└── generate_protocol()    # Claude Sonnet 5 — sintesi evidence-based
+├── load_library()           # Carica exercise_library.json
+├── gather_evidence()        # 6 ricerche PubMed mirate
+├── get_exercises_for_phase()# Filtra esercizi per fase/distretto
+├── build_exercise_context() # Prepara contesto esercizi per Claude
+└── generate_protocol()      # Claude Sonnet 5 — sintesi finale
 ```
 
 ## Requisiti
 
 - Python 3.10+
-- `requests`
-- `anthropic`
+- `pip install requests anthropic`
 - API key Anthropic (claude.ai/settings)
+- Accesso Internet a PubMed (eutils.ncbi.nlm.nih.gov)
