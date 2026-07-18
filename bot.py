@@ -77,32 +77,120 @@ def pubmed_fetch_abstracts(pmids: list[str]) -> list[dict]:
 
 
 def gather_evidence(condition: str) -> dict[str, list[dict]]:
-    """6 ricerche PubMed mirate per la condizione."""
-    print("\n🔍 Ricerca PubMed in corso...")
+    """
+    Ricerca massiva su PubMed: 15 query mirate, fino a 150+ articoli.
+    Copre: systematic reviews, meta-analisi, RCT, linee guida, studi di coorte,
+    struttura sessione, fasi riabilitative, isometria, neuromuscolare,
+    propriocezione, pliometria, RTP/RTT/RTS, psicologia, imaging, prognosi.
+    """
+    print("\n🔍 Ricerca massiva PubMed in corso (15 query)...")
+
     searches = {
-        "systematic_reviews": (f"{condition} rehabilitation", "(systematic review[pt] OR meta-analysis[pt])"),
-        "rct":                (f"{condition} exercise therapy treatment", "(randomized controlled trial[pt])"),
-        "session_structure":  (f"{condition} warm-up isometric activation protocol", ""),
-        "rtp_rts":            (f"{condition} return to sport return to play criteria", ""),
-        "load_management":    (f"{condition} progressive loading neuromuscular", ""),
-        "outcome_measures":   (f"{condition} functional outcome prognosis", "(cohort study[tw] OR clinical trial[pt])"),
+        # ── EVIDENZE DI PRIMO LIVELLO ─────────────────────────────
+        "systematic_reviews": (
+            f"{condition} rehabilitation",
+            "(systematic review[pt] OR meta-analysis[pt])"
+        ),
+        "meta_analysis": (
+            f"{condition} exercise treatment outcome",
+            "(meta-analysis[pt])"
+        ),
+        "clinical_guidelines": (
+            f"{condition} clinical practice guideline consensus",
+            "(guideline[pt] OR practice guideline[pt] OR consensus development[pt])"
+        ),
+        "rct": (
+            f"{condition} physiotherapy exercise randomized",
+            "(randomized controlled trial[pt])"
+        ),
+        "rct_2": (
+            f"{condition} rehabilitation protocol intervention",
+            "(randomized controlled trial[pt])"
+        ),
+
+        # ── FASI E STRUTTURA RIABILITATIVA ────────────────────────
+        "rehab_phases": (
+            f"{condition} rehabilitation phases progression criteria timeline",
+            ""
+        ),
+        "session_structure": (
+            f"{condition} warm-up activation isometric rehabilitation session",
+            ""
+        ),
+        "isometric_training": (
+            f"{condition} isometric exercise tendon pain contraction",
+            ""
+        ),
+        "neuromuscular": (
+            f"{condition} neuromuscular training proprioception balance",
+            ""
+        ),
+
+        # ── FORZA E CARICO ────────────────────────────────────────
+        "strength_training": (
+            f"{condition} strength training progressive overload quadriceps hamstring",
+            "(randomized controlled trial[pt] OR cohort study[tw])"
+        ),
+        "eccentric_training": (
+            f"{condition} eccentric exercise loading tendon muscle",
+            ""
+        ),
+        "plyometric": (
+            f"{condition} plyometric jump training explosive",
+            ""
+        ),
+
+        # ── RETURN TO SPORT ───────────────────────────────────────
+        "rtp_criteria": (
+            f"{condition} return to sport play criteria functional testing",
+            ""
+        ),
+        "rts_psychological": (
+            f"{condition} return to sport psychological readiness kinesiophobia fear",
+            ""
+        ),
+
+        # ── OUTCOME E PROGNOSI ────────────────────────────────────
+        "functional_outcome": (
+            f"{condition} functional outcome patient reported measures KOOS IKDC",
+            "(cohort study[tw] OR prospective study[tw])"
+        ),
+        "prognosis_reinjury": (
+            f"{condition} prognosis reinjury risk factors recurrence",
+            ""
+        ),
+        "imaging_diagnosis": (
+            f"{condition} MRI ultrasound diagnosis classification",
+            ""
+        ),
+        "pain_management": (
+            f"{condition} pain management analgesic cryotherapy TENS electrostimulation",
+            ""
+        ),
+        "manual_therapy": (
+            f"{condition} manual therapy mobilization massage soft tissue",
+            "(randomized controlled trial[pt] OR systematic review[pt])"
+        ),
     }
+
     evidence = {}
     total = 0
     for key, (query, filters) in searches.items():
         label = key.replace("_", " ").upper()
         print(f"  ↳ [{label}]...", end=" ", flush=True)
         try:
-            pmids = pubmed_search(query, max_results=8, filters=filters)
-            arts = pubmed_fetch_abstracts(pmids[:6])
+            pmids = pubmed_search(query, max_results=12, filters=filters)
+            arts = pubmed_fetch_abstracts(pmids[:10])
             evidence[key] = arts
             total += len(arts)
-            print(f"{len(arts)} articoli")
+            print(f"✓ {len(arts)} articoli")
         except Exception as e:
             print(f"errore ({e})")
             evidence[key] = []
-        time.sleep(0.35)
-    print(f"\n📚 Totale: {total} articoli")
+        time.sleep(0.4)  # rispetta rate limit NCBI (3 req/sec)
+
+    print(f"\n📚 Totale articoli PubMed recuperati: {total}")
+    print(f"📊 Query eseguite: {len(searches)} | Copertura: SR, MA, RCT, linee guida, coorte")
     return evidence
 
 # ---------------------------------------------------------------------------
@@ -174,98 +262,232 @@ def build_exercise_context(condition_keywords: list[str]) -> str:
 # ---------------------------------------------------------------------------
 
 SYSTEM_PROMPT = """\
-Sei un fisioterapista esperto con PhD in scienze riabilitative e medicina dello sport.
-Generi protocolli riabilitativi per QUALSIASI patologia fisioterapica, basati ESCLUSIVAMENTE
-sulle evidenze scientifiche PubMed fornite.
+Sei un fisioterapista esperto con PhD in scienze riabilitative e medicina dello sport,
+con specializzazione in fisioterapia muscoloscheletrica e sportiva.
 
+Generi protocolli riabilitativi per QUALSIASI patologia fisioterapica, basati
+ESCLUSIVAMENTE sulle evidenze scientifiche PubMed fornite (systematic reviews,
+meta-analisi, RCT, linee guida, studi di coorte).
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 STRUTTURA OBBLIGATORIA DI OGNI SESSIONE (5 fasi):
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 🔥 FASE 1 — RISCALDAMENTO DINAMICO (10-15 min)
-   Mobilizzazione articolare, warm-up cardiovascolare leggero, esercizi dinamici.
-   Scegli da: esercizi mobilità (categoria "mobilita") della libreria.
+   Obiettivo: aumentare temperatura muscolare, perfusione, ROM articolare.
+   Contenuto: mobilizzazione articolare dinamica, esercizi di attivazione generale.
+   Scegli da: categoria "mobilita" della libreria.
+   Evidenza: cita PMID che supporta il warm-up pre-riabilitazione.
 
 🧱 FASE 2 — ISOMETRIA (5-10 min)
-   Contrazioni isometriche per riscaldare il tendine/muscolo target e attivare il sistema nervoso.
-   Scegli da: esercizi con tipo "isometria" o "isometria_*" della libreria.
-   (Fondamentale per tendini, post-infiammazione, fase acuta avanzata)
+   Obiettivo: riscaldare il tendine/muscolo target, ridurre il dolore, attivare il SNC.
+   Contenuto: contrazioni isometriche a medio-alta intensità (60-80% MVC), 5×45s.
+   Scegli da: tipo "isometria" nella libreria (wall sit, Spanish squat, BOSU isometrico).
+   Evidenza scientifica chiave: l'isometria riduce il dolore tendineo (Rio et al.) —
+   cita PMID specifico se presente nella lista fornita.
 
 ⚡ FASE 3 — ATTIVAZIONE SPECIFICA (10-15 min)
-   Attivazione neuromuscolare dei muscoli target con esercizi a basso carico.
-   Scegli da: esercizi con tipo "attivazione" o "attivazione_*" della libreria.
+   Obiettivo: attivazione neuromuscolare selettiva dei muscoli target a basso carico.
+   Contenuto: esercizi di attivazione con elastici, corpo libero, BOSU a bassa intensità.
+   Scegli da: tipo "attivazione" o "attivazione_*" nella libreria.
+   Evidenza: cita PMID che supporta l'attivazione pre-esercizio.
 
 💪 FASE 4 — ESERCIZI SPECIFICI (20-30 min)
-   Esercizi principali: forza, propriocezione, sport-specifici. Progressione evidence-based.
-   Scegli da: esercizi con tipo "forza*", "propriocezione*", "sport_specifico", "pliometria*".
+   Obiettivo: rinforzo muscolare, propriocezione, controllo motorio, sport-specificità.
+   Contenuto: forza progressiva (CKC e OKC), BOSU, pliometria (solo nelle fasi avanzate).
+   Progressione evidence-based: da bassa a alta intensità, da bilaterale a monolaterale,
+   da stabile a instabile, da controllato a reattivo.
+   Scegli da: tipo "forza*", "propriocezione*", "sport_specifico", "pliometria*".
+   Per OGNI esercizio: cita PMID di supporto e livello di evidenza.
 
-🧘 FASE 5 — STRETCHING / DEFATICAMENTO (10 min)
-   Stretching statico dei muscoli lavorati, rilascio miofasciale.
-   Scegli da: esercizi con tipo "stretching_statico" della libreria.
+🧘 FASE 5 — STRETCHING E DEFATICAMENTO (10 min)
+   Obiettivo: riduzione DOMS, ripristino lunghezza muscolare, recupero.
+   Contenuto: stretching statico 30-60s per gruppo muscolare lavorato.
+   Scegli da: tipo "stretching_statico" nella libreria.
+   Evidenza: indica se lo stretching post-esercizio è supportato (cita PMID).
 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 REGOLE FERREE:
-1. OGNI esercizio prescritto deve essere preso dalla LIBRERIA FORNITA (citare l'ID).
-   Se l'esercizio perfetto non è in libreria, indicarlo come [NON IN LIBRERIA].
-2. Ogni raccomandazione deve citare il PMID della fonte PubMed e il livello di evidenza (A/B/C).
-3. Gerarchia: systematic review/meta-analisi (A) > RCT (B) > coorte/esperto (C).
-4. Criteri di progressione MISURABILI: VAS, ROM in gradi, LSI %, H:Q ratio, tempi.
-5. Include SEMPRE: timeline riabilitativa + RTP + RTT + RTS con criteri.
-6. Per ogni fase indica: serie × ripetizioni × recupero OPPURE durata × set.
-7. Rispondi in ITALIANO tecnico-clinico. Usa tabelle e liste per la leggibilità.
-8. Segnala RED FLAGS per rivalutazione medica.
-9. Include bibliografia con PMID e DOI al fondo.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. USA TUTTE LE EVIDENZE FORNITE — non ignorare nessun articolo, sintetizzali tutti.
+2. Ogni raccomandazione DEVE citare PMID + livello evidenza (A/B/C).
+   A = systematic review / meta-analisi
+   B = RCT / studio prospettico
+   C = coorte retrospettiva / case series / consenso esperto
+3. Gerarchia evidenze: privilegia sempre A > B > C.
+4. Evidenze CONTRADDITTORIE: segnalale esplicitamente e spiega quale prevale e perché.
+5. OGNI esercizio prescritto deve avere ID dalla libreria fornita.
+   Se non disponibile in libreria: [NON IN LIBRERIA — aggiungi alle schede].
+6. Criteri di progressione MISURABILI obbligatori:
+   - Dolore: VAS (es. VAS ≤2/10 per avanzare)
+   - ROM: in gradi (es. flessione ≥120°)
+   - Forza: LSI % (es. LSI ≥85% per RTP)
+   - Forza relativa: H:Q ratio (es. ≥0.60 per RTS)
+   - Funzionale: hop test LSI (es. ≥90% per RTS)
+   - Psicologico: ACL-RSI (es. ≥65 per RTS), TSK (es. <37)
+7. Timeline: indica settimane/mesi con obiettivi SPECIFICI per ogni fase.
+8. Include SEMPRE sezioni: RTP → RTT → RTS con criteri completi.
+9. RED FLAGS: segnali che richiedono stop e rivalutazione medico-chirurgica.
+10. Segnala gap nelle evidenze e raccomandazioni basate su consenso clinico.
+11. LINGUA: italiano tecnico-clinico. Usa tabelle per parametri e progressioni.
+12. BIBLIOGRAFIA COMPLETA al fondo: PMID | DOI | Autori | Anno | Tipo studio | Livello.
 """
 
 USER_TEMPLATE = """\
 CONDIZIONE PAZIENTE: {condition}
+DATA RICERCA: {date}
 
-━━━ EVIDENZE SCIENTIFICHE DA PUBMED ({date}) ━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EVIDENZE SCIENTIFICHE DA PUBMED — {n_articles} ARTICOLI TOTALI
+(systematic reviews, meta-analisi, RCT, linee guida, coorti)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 {evidence_text}
 
-━━━ LIBRERIA ESERCIZI DISPONIBILI ━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+LIBRERIA ESERCIZI PERSONALIZZATA (205 esercizi disponibili)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 {exercise_context}
 
-━━━ RICHIESTA ━━━
-Genera un PROTOCOLLO RIABILITATIVO COMPLETO per la condizione specificata.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+RICHIESTA: PROTOCOLLO RIABILITATIVO COMPLETO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-STRUTTURA RICHIESTA:
+Usa TUTTE le evidenze sopra per costruire il protocollo più completo possibile.
+Non ignorare nessun articolo: ogni PMID deve contribuire a una raccomandazione.
 
-## OVERVIEW CLINICO
-- Diagnosi, anatomia coinvolta, classificazione (se applicabile)
-- Timeline complessiva di recupero evidence-based
-- Obiettivi per ogni macro-fase
+STRUTTURA OBBLIGATORIA:
 
-## STRUTTURA DELLA SESSIONE TIPO (5 fasi)
+---
 
-### 🔥 FASE 1 — RISCALDAMENTO DINAMICO
-Per ogni esercizio: [ID_LIBRERIA] Nome | Serie×Rip o Durata | Note tecniche
+## 1. PANORAMICA CLINICA
 
-### 🧱 FASE 2 — ISOMETRIA
-Per ogni esercizio: [ID_LIBRERIA] Nome | Angolo | Durata hold | Set | Note
+### Diagnosi e anatomia
+- Strutture coinvolte, meccanismo lesionale, classificazione evidence-based
+- Citare la classificazione più accreditata (PMID)
 
-### ⚡ FASE 3 — ATTIVAZIONE SPECIFICA
-Per ogni esercizio: [ID_LIBRERIA] Nome | Serie×Rip | Note tecniche
+### Epidemiologia e fattori di rischio
+- Incidenza, prevalenza, fattori predittivi (citare PMID)
+
+### Timeline globale di recupero
+- Tabella: Settimane | Fase | Obiettivi principali | Outcome attesi
+
+---
+
+## 2. VALUTAZIONE INIZIALE E RIVALUTAZIONI
+
+### Strumenti di valutazione validati
+| Strumento | Misura | Valore baseline | Soglia per avanzamento | PMID |
+|---|---|---|---|---|
+
+### Test funzionali
+- Lista test con soglie numeriche evidence-based (citare PMID per ogni soglia)
+
+---
+
+## 3. SESSIONE TIPO — 5 FASI (con esercizi dalla libreria)
+
+### 🔥 FASE 1 — RISCALDAMENTO DINAMICO (10-15 min)
+Razionale scientifico: [cita PMID]
+| ID Libreria | Esercizio | Durata/Serie | Note tecniche |
+|---|---|---|---|
+
+### 🧱 FASE 2 — ISOMETRIA (5-10 min)
+Razionale scientifico: [cita PMID — soprattutto per tendinopatie]
+| ID Libreria | Esercizio | Angolo | Durata×Set | Intensità | Note |
+|---|---|---|---|---|---|
+
+### ⚡ FASE 3 — ATTIVAZIONE SPECIFICA (10-15 min)
+Razionale scientifico: [cita PMID]
+| ID Libreria | Esercizio | Serie×Rip | Recupero | Note |
+|---|---|---|---|---|
 
 ### 💪 FASE 4 — ESERCIZI SPECIFICI
-Divisi per SETTIMANE/FASI di recupero con progressione.
-Per ogni esercizio: [ID_LIBRERIA] Nome | Serie×Rip×Carico | Note | Evidenza (PMID)
+Divisi per macro-fase riabilitativa:
 
-### 🧘 FASE 5 — STRETCHING E DEFATICAMENTO
-Per ogni esercizio: [ID_LIBRERIA] Nome | Durata | Note
+#### FASE PRECOCE (settimane specifiche da evidenza)
+| ID Libreria | Esercizio | Serie×Rip | Carico | Evidenza PMID | Livello |
+|---|---|---|---|---|---|
 
-## PROGRESSIONE TEMPORALE
-Tabella: Settimane | Fase | Obiettivi | Esercizi chiave | Criteri di avanzamento
+#### FASE INTERMEDIA
+| ID Libreria | Esercizio | Serie×Rip | Carico | Evidenza PMID | Livello |
+|---|---|---|---|---|---|
 
-## CRITERI RTP / RTT / RTS
-- Return to Play: criteri misurabili
-- Return to Training: criteri misurabili
-- Return to Sport: criteri biometrici + funzionali + psicologici
+#### FASE AVANZATA / PRE-SPORT
+| ID Libreria | Esercizio | Serie×Rip | Carico | Evidenza PMID | Livello |
+|---|---|---|---|---|---|
 
-## RED FLAGS ⚠️
-Segnali che richiedono stop e rivalutazione medica.
+### 🧘 FASE 5 — STRETCHING E DEFATICAMENTO (10 min)
+| ID Libreria | Esercizio | Durata | Muscolo target | Note |
+|---|---|---|---|---|
 
-## BIBLIOGRAFIA
-PMID | DOI | Autori | Anno | Livello evidenza
+---
 
-Per ogni esercizio cita ID libreria. Per ogni raccomandazione clinica cita PMID.
+## 4. PROGRESSIONE SETTIMANA PER SETTIMANA
+
+| Settimane | Fase | Obiettivi | Esercizi chiave (ID) | Criteri di avanzamento | Frequenza |
+|---|---|---|---|---|---|
+
+---
+
+## 5. TERAPIA FISICA ADIUVANTE
+(electrostimolazione, crioterapia, terapia manuale, taping — solo se supportata da PMID)
+| Trattamento | Parametri | Evidenza PMID | Livello |
+|---|---|---|---|
+
+---
+
+## 6. GESTIONE DEL DOLORE
+(farmaci OTC, RICE/PEACE&LOVE, scarico) — citare linee guida (PMID)
+
+---
+
+## 7. RTP — RETURN TO PLAY
+Criteri con soglie numeriche evidence-based:
+| Dominio | Test | Soglia minima | PMID |
+|---|---|---|---|
+
+---
+
+## 8. RTT — RETURN TO TRAINING
+- Progressione allenamento: % intensità per settimana
+- Monitoraggio carico (ACWR raccomandata <1.5)
+
+---
+
+## 9. RTS — RETURN TO SPORT (clearance definitiva)
+| Dominio | Test | Soglia | PMID |
+|---|---|---|---|
+| Biometrico | LSI quad / ischio | ≥90% | |
+| Forza relativa | H:Q ratio | ≥0.60 | |
+| Hop test | Single/Triple/Crossover/6m | LSI ≥90% | |
+| Psicologico | ACL-RSI / TSK | ≥65 / <37 | |
+| Tempo minimo | — | da evidenza | |
+
+---
+
+## 10. RED FLAGS ⚠️
+| Segnale | Possibile causa | Azione |
+|---|---|---|
+
+---
+
+## 11. GAP NELLE EVIDENZE
+Aree dove le evidenze sono limitate o contraddittorie.
+
+---
+
+## 12. BIBLIOGRAFIA COMPLETA
+
+| # | PMID | DOI | Primo autore | Anno | Rivista | Tipo studio | Livello evidenza | Raccomandazione |
+|---|---|---|---|---|---|---|---|---|
+
+---
+
+IMPORTANTE: ogni cella "Evidenza PMID" nella tabella DEVE contenere un PMID reale
+dalla lista fornita. Non inventare PMID. Se non c'è evidenza diretta, scrivi
+"Consenso clinico (C)" e spiega il razionale.
 """
 
 
@@ -300,11 +522,13 @@ def generate_protocol(condition: str, evidence: dict) -> str:
     exercise_context = build_exercise_context(keywords)
     evidence_text = build_evidence_text(evidence)
 
+    n_articles = sum(len(v) for v in evidence.values())
     user_msg = USER_TEMPLATE.format(
         condition=condition,
         date=datetime.now().strftime("%B %Y"),
         evidence_text=evidence_text,
         exercise_context=exercise_context,
+        n_articles=n_articles,
     )
 
     print("\n🧠 Generazione protocollo con Claude (claude-sonnet-5)...")
