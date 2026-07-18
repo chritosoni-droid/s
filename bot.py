@@ -337,6 +337,8 @@ USER_TEMPLATE = """\
 CONDIZIONE PAZIENTE: {condition}
 DATA RICERCA: {date}
 
+{phase_block}
+
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EVIDENZE SCIENTIFICHE DA PUBMED — {n_articles} ARTICOLI TOTALI
 (systematic reviews, meta-analisi, RCT, linee guida, coorti)
@@ -358,6 +360,39 @@ Usa TUTTE le evidenze sopra per costruire il protocollo più completo possibile.
 Non ignorare nessun articolo: ogni PMID deve contribuire a una raccomandazione.
 
 STRUTTURA OBBLIGATORIA:
+
+---
+
+## 0. FASE ATTUALE DEL PAZIENTE ⏱️
+
+> **Questa sezione va compilata PRIMA di tutto il resto. È il punto di partenza del protocollo.**
+
+### Dove siamo ora
+- **Fase riabilitativa attuale:** [nome fase con settimane/mesi]
+- **Timing dall'inizio:** [settimane/mesi]
+- **Obiettivi SPECIFICI di questa fase:** lista puntata con valori misurabili
+- **Test/misure attesi in questa fase:** VAS, ROM, LSI, hop test — con soglie numericheì
+
+### Cosa è già stato fatto (fasi precedenti)
+Breve sintesi evidence-based di ciò che dovrebbe essere stato completato prima di questa fase.
+
+### Sessione tipo QUESTA SETTIMANA (5 fasi)
+La sessione dettagliata nella Sezione 3 deve rispecchiare ESATTAMENTE questa fase.
+
+### Tabella timeline globale — con indicazione "◀ SIAMO QUI"
+
+| Settimane | Fase | Obiettivi | Criteri avanzamento | Stato |
+|---|---|---|---|---|
+| 0-2 | Fase 1 — Precoce | ... | ... | ✅ Completata / 🔴 FASE ATTUALE / ⬜ Futura |
+| 3-6 | Fase 2 — Sub-Acuta | ... | ... | ... |
+| 7-12 | Fase 3 — Rinforzo | ... | ... | ... |
+| 13-20 | Fase 4 — Avanzata | ... | ... | ... |
+| 20+ | Fase 5 — RTS | ... | ... | ... |
+
+### Obiettivi settimana per settimana (FASE ATTUALE + prossime 4 settimane)
+
+| Settimana | Obiettivi specifici | Esercizi chiave (ID) | Parametri di carico | Criteri go/no-go |
+|---|---|---|---|---|
 
 ---
 
@@ -491,6 +526,104 @@ dalla lista fornita. Non inventare PMID. Se non c'è evidenza diretta, scrivi
 """
 
 
+def parse_phase_context(condition: str) -> dict:
+    """
+    Estrae il contesto di fase/timing dalla stringa condizione.
+    Ritorna: {weeks, months, phase_name, phase_number, post_op, acute, notes}
+    """
+    import re
+    c = condition.lower()
+
+    weeks = None
+    months = None
+    phase_number = None
+    post_op = any(w in c for w in ["operato", "intervento", "chirurgi", "post-op", "postop", "artroscopia"])
+    acute = any(w in c for w in ["acuta", "acuto", "recente", "fresca", "immediata"])
+
+    # Estrai settimane
+    m = re.search(r'(\d+)\s*(?:settiman[ae]|week)', c)
+    if m:
+        weeks = int(m.group(1))
+
+    # Estrai mesi
+    m = re.search(r'(\d+)\s*(?:mes[ie]|month)', c)
+    if m:
+        months = int(m.group(1))
+
+    # Converti mesi → settimane se noto
+    if months and not weeks:
+        weeks = months * 4
+
+    # Determina fase riabilitativa in base a timing e contesto
+    if post_op:
+        if weeks is None:
+            phase_number = 1
+            phase_name = "Fase Precoce Post-Operatoria (sett. 0-2)"
+            objectives_now = "Controllo dell'edema, recupero ROM passivo, attivazione muscolare precoce, protezione dell'innesto/struttura"
+            objectives_next = "Deambulazione autonoma, ROM attivo 0-90°, contrazione quadricipite attiva"
+        elif weeks <= 2:
+            phase_number = 1
+            phase_name = "Fase 1 — Precoce Post-Operatoria (sett. 0-2)"
+            objectives_now = "Controllo edema/dolore, recupero ROM passivo 0-90°, attivazione VMO e glutei, deambulazione con ausili"
+            objectives_next = "ROM attivo 0-120°, estensione completa, forza quad >50% controlaterale, deambulazione autonoma"
+        elif weeks <= 6:
+            phase_number = 2
+            phase_name = "Fase 2 — Sub-Acuta / Recupero ROM (sett. 3-6)"
+            objectives_now = "Recupero ROM completo, rinforzo progressivo quadricipiti/ischio/glutei in CKC, propriocezione di base, ciclo del passo normale"
+            objectives_next = "ROM completo, LSI forza ≥60%, single leg balance >30s, inizio corsa in linea"
+        elif weeks <= 12:
+            phase_number = 3
+            phase_name = "Fase 3 — Rinforzo Muscolare (sett. 7-12)"
+            objectives_now = "Rinforzo bilaterale e monolaterale progressivo, BOSU e propriocezione avanzata, inizio corsa progressiva, controllo motorio"
+            objectives_next = "LSI forza ≥70-75%, single-leg squat con buon controllo, corsa continua 20 min"
+        elif weeks <= 20:
+            phase_number = 4
+            phase_name = "Fase 4 — Forza Avanzata e Reintroduzione Sport (sett. 13-20)"
+            objectives_now = "Rinforzo pesistico progressivo, pliometria bilaterale e monolaterale, gesti sport-specifici, RTP training"
+            objectives_next = "LSI ≥85%, hop test LSI ≥85%, corsa con cambi direzione, ACL-RSI ≥65"
+        else:
+            phase_number = 5
+            phase_name = "Fase 5 — Pre-Sport / RTS (sett. 20+)"
+            objectives_now = "Test di clearance per RTS: hop test LSI ≥90%, LSI forza ≥90%, H:Q ≥0.60, ACL-RSI ≥65, TSK <37"
+            objectives_next = "Ritorno al gioco con piena fiducia e prestazione atletica pre-lesione"
+    elif acute:
+        phase_number = 1
+        phase_name = "Fase Acuta (0-72h) / Sub-Acuta (settimana 1-2)"
+        objectives_now = "Controllo infiammazione (PEACE&LOVE), riduzione dolore e gonfiore, protezione, recupero ROM passivo"
+        objectives_next = "Carico progressivo tollerato, deambulazione normale, VAS ≤3/10 a riposo"
+    elif weeks and weeks <= 4:
+        phase_number = 1
+        phase_name = f"Fase Precoce (sett. {weeks})"
+        objectives_now = "Riduzione dolore e infiammazione, recupero ROM, attivazione muscolare protetta, scarico progressivo"
+        objectives_next = "Carico completo tollerato, ROM funzionale, forza >60% controlaterale"
+    elif weeks and weeks <= 8:
+        phase_number = 2
+        phase_name = f"Fase Sub-Acuta / Rinforzo Iniziale (sett. {weeks})"
+        objectives_now = "Rinforzo muscolare progressivo, propriocezione, riduzione kinesiofobia, ritorno alle ADL complete"
+        objectives_next = "Forza LSI ≥70%, equilibrio monolaterale stabile, inizio sport-specifico"
+    elif weeks and weeks <= 16:
+        phase_number = 3
+        phase_name = f"Fase Avanzata (sett. {weeks})"
+        objectives_now = "Forza avanzata (eccentric/plyometric loading), sport-specificity, RTP progressivo"
+        objectives_next = "LSI ≥85%, test funzionali superati, clearance RTS"
+    else:
+        phase_number = None
+        phase_name = "Fase non specificata — protocollo progressivo completo"
+        objectives_now = "Valutazione baseline → obiettivi progressivi per ogni fase"
+        objectives_next = "Ritorno sport con piena funzione"
+
+    return {
+        "weeks": weeks,
+        "months": months,
+        "phase_number": phase_number,
+        "phase_name": phase_name,
+        "post_op": post_op,
+        "acute": acute,
+        "objectives_now": objectives_now,
+        "objectives_next": objectives_next,
+    }
+
+
 def build_evidence_text(evidence: dict) -> str:
     sections = []
     for section, articles in evidence.items():
@@ -521,10 +654,37 @@ def generate_protocol(condition: str, evidence: dict) -> str:
     keywords = condition.lower().split()
     exercise_context = build_exercise_context(keywords)
     evidence_text = build_evidence_text(evidence)
+    phase_ctx = parse_phase_context(condition)
+
+    # Costruisce il blocco fase-attuale da iniettare nel prompt
+    phase_block = f"""\
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⏱️  FASE ATTUALE DEL PAZIENTE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Timing indicato: {f"settimana {phase_ctx['weeks']}" if phase_ctx['weeks'] else f"{phase_ctx['months']} mesi" if phase_ctx['months'] else "non specificato"}
+Fase riabilitativa rilevata: {phase_ctx['phase_name']}
+Post-operatorio: {"SÌ" if phase_ctx['post_op'] else "NO"}
+Fase acuta: {"SÌ" if phase_ctx['acute'] else "NO"}
+
+🎯 OBIETTIVI SPECIFICI PER QUESTA FASE:
+{phase_ctx['objectives_now']}
+
+⏭️ OBIETTIVI FASE SUCCESSIVA (criteri di avanzamento):
+{phase_ctx['objectives_next']}
+
+ISTRUZIONE CRITICA: il protocollo deve essere centrato sulla fase attuale indicata sopra.
+- Indica con precisione cosa si FA in questa settimana/fase specifica
+- Indica cosa è già stato fatto nelle fasi precedenti (non riprescriverlo come attivo)
+- Indica cosa viene dopo con timeline precisa (settimane) e criteri misurabili
+- La sessione tipo deve essere quella appropriata ALLA FASE ATTUALE
+- La tabella progressione deve evidenziare chiaramente DOVE siamo ADESSO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+"""
 
     n_articles = sum(len(v) for v in evidence.values())
     user_msg = USER_TEMPLATE.format(
         condition=condition,
+        phase_block=phase_block,
         date=datetime.now().strftime("%B %Y"),
         evidence_text=evidence_text,
         exercise_context=exercise_context,
@@ -582,6 +742,12 @@ def banner():
 def run(condition: str):
     banner()
     print(f"📋 Condizione: {condition}")
+
+    ctx = parse_phase_context(condition)
+    print(f"⏱️  Fase rilevata: {ctx['phase_name']}")
+    if ctx['weeks']:
+        print(f"   Timing: settimana {ctx['weeks']}")
+    print(f"   Obiettivi attuali: {ctx['objectives_now'][:100]}...")
 
     evidence = gather_evidence(condition)
     protocol = generate_protocol(condition, evidence)
