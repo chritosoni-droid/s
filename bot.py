@@ -536,9 +536,20 @@ def parse_phase_context(condition: str) -> dict:
 
     weeks = None
     months = None
+    days = None
     phase_number = None
     post_op = any(w in c for w in ["operato", "intervento", "chirurgi", "post-op", "postop", "artroscopia"])
     acute = any(w in c for w in ["acuta", "acuto", "recente", "fresca", "immediata"])
+
+    # Estrai giorni — supporta "14 giorni" E "giorno 14"
+    # Rimuove temporaneamente il pattern del grado per evitare false catture
+    c_no_grade = re.sub(r'[1234]\s*(?:°\s*)?grado|(?:grado|grade)\s*[1234]', '', c)
+    m = re.search(r'(\d{1,3})\s*(?:giorn[oi]|day)', c_no_grade)
+    if not m:
+        m = re.search(r'(?:giorn[oi]|day)\s*(\d{1,3})', c_no_grade)
+    if m:
+        days = int(m.group(1))
+        weeks = days / 7  # float per confronti
 
     # Estrai settimane
     m = re.search(r'(\d+)\s*(?:settiman[ae]|week)', c)
@@ -553,6 +564,104 @@ def parse_phase_context(condition: str) -> dict:
     # Converti mesi → settimane se noto
     if months and not weeks:
         weeks = months * 4
+
+    # Rileva lesione muscolare (Monaco / gradi) — estrai PRIMA di analizzare giorni
+    muscular_injury = any(w in c for w in ["lesione", "strappo", "distrazione", "rottura muscol"])
+    monaco_grade = None
+    # "grado 2", "grade 2"
+    m = re.search(r'(?:grado|grade|gr\.?)\s*([1234])', c)
+    if m:
+        monaco_grade = int(m.group(1))
+    if not monaco_grade:
+        # "2grado", "2° grado" (numero PRIMA di grado)
+        m = re.search(r'([1234])\s*(?:°\s*)?grado', c)
+        if m:
+            monaco_grade = int(m.group(1))
+    if not monaco_grade:
+        if "1a" in c or "1b" in c:
+            monaco_grade = 1
+        elif "2a" in c or "2b" in c or "2c" in c:
+            monaco_grade = 2
+        elif "3a" in c or "3b" in c:
+            monaco_grade = 3
+
+    if muscular_injury and monaco_grade:
+        # Timeline Monaco: G1~1-2sett, G2~3-6sett, G3~6-12sett, G4→chirurgia
+        day = days if days else (weeks * 7 if weeks else None)
+        if monaco_grade == 1:
+            total_days = 10
+            if day is None or day <= 3:
+                phase_number = 1
+                phase_name = "Lesione Monaco G1 — Fase Acuta (giorni 1-3)"
+                objectives_now = "PEACE&LOVE: protezione 24-48h, controllo edema/ematoma, ROM dolore-libero, deambulazione normale. Crioterapia 15 min × 4-6/die."
+                objectives_next = "Corsa leggera (>giorni 5), forza piena (>giorno 7-10), RTP (giorno 10-14)"
+            else:
+                phase_number = 2
+                phase_name = "Lesione Monaco G1 — Fase Sub-Acuta/Rientro (giorni 4-10)"
+                objectives_now = "Rinforzo muscolare progressivo, corsa in linea, elastici, ritorno alle sessioni parziali"
+                objectives_next = "RTP: assenza dolore, LSI forza ≥90%, corsa e cambi direzione senza dolore"
+        elif monaco_grade == 2:
+            total_days = 35
+            if day is None or day <= 7:
+                phase_number = 1
+                phase_name = "Lesione Monaco G2 — Fase Acuta (giorni 1-7)"
+                objectives_now = "PEACE&LOVE, protezione relativa 48-72h, mobilità ROM dolore-guidata, scarico parziale se necessario. VAS ≤4/10 a riposo. Crioterapia, compressione, elevazione."
+                objectives_next = "Deambulazione normale senza dolore, ROM completo, inizio attivazione muscolare attiva (>giorno 7)"
+            elif day <= 14:
+                phase_number = 2
+                phase_name = "Lesione Monaco G2 — Fase Sub-Acuta (giorni 7-14)"
+                objectives_now = "Attivazione muscolare attiva progressiva, isometria a bassa intensità, ROM completo senza dolore, corsa leggera in linea (se VAS ≤2). Recupero ciclo del passo normale."
+                objectives_next = "Corsa progressiva senza dolore, inizio escentrico (giorno 14-21), rinforzo funzionale"
+            elif day <= 21:
+                phase_number = 3
+                phase_name = "Lesione Monaco G2 — Fase Rinforzo Iniziale (giorni 14-21)"
+                objectives_now = "Esercizi eccentrici progressivi (Nordic curl, RDL), corsa in linea e progressiva, BOSU e propriocezione, carico sport-specifico iniziale. Obiettivo: forza LSI ≥70%."
+                objectives_next = "Cambio direzione, gesti sport-specifici, VAS 0/10 durante tutti gli esercizi, LSI ≥80%"
+            else:
+                phase_number = 4
+                phase_name = "Lesione Monaco G2 — Fase Avanzata/Pre-RTP (giorni 21-35)"
+                objectives_now = "Rinforzo avanzato eccentrico/concentrico, sprint, cambi direzione, gesti sport-specifici. LSI forza ≥85%. Test funzionali senza dolore."
+                objectives_next = "RTP: assenza dolore, LSI ≥90%, sprint massimale, Askling H-test negativo, Athletic Body Test"
+        elif monaco_grade == 3:
+            total_days = 75
+            if day is None or day <= 7:
+                phase_number = 1
+                phase_name = "Lesione Monaco G3 — Fase Acuta (giorni 1-7)"
+                objectives_now = "PEACE&LOVE rigoroso, scarico completo se necessario, immobilizzazione parziale (ortesi), controllo ecografico a 48-72h, valutare consulto chirurgico. Crioterapia, FANS solo se necessario."
+                objectives_next = "Deambulazione senza dolore, ROM passivo completo, decisione conservativa vs chirurgica"
+            elif day <= 21:
+                phase_number = 2
+                phase_name = "Lesione Monaco G3 — Fase Sub-Acuta (giorni 7-21)"
+                objectives_now = "ROM progressivo attivo, isometria submassimale, idroterapia (se disponibile), attivazione muscolare protetta. Ecografia di controllo settimana 2."
+                objectives_next = "Corsa leggera (giorno 21-28), forza funzionale CKC, inizio eccentrico (giorno 28+)"
+            elif day <= 42:
+                phase_number = 3
+                phase_name = "Lesione Monaco G3 — Fase Rinforzo (giorni 21-42)"
+                objectives_now = "Escentrico progressivo, nordic curl, BOSU, propriocezione, corsa progressiva (linea → curve → sprint al 70%). LSI forza target ≥70%."
+                objectives_next = "Sprint, cambi direzione, gesti sport-specifici, LSI ≥80-85%"
+            else:
+                phase_number = 4
+                phase_name = "Lesione Monaco G3 — Fase Avanzata/Pre-RTP (giorni 42-75)"
+                objectives_now = "Rinforzo massimale, plyometria, gesti sport-specifici, sprint massimale. Target: LSI ≥90%, Askling H-test, test sport-specifici."
+                objectives_next = "RTP con clearance completa: LSI ≥90%, assenza dolore, fiducia psicologica (ACSI-28)"
+        else:
+            phase_number = None
+            phase_name = "Lesione Monaco G4 — Valutazione Chirurgica"
+            objectives_now = "Consulto chirurgico urgente. Protocollo riabilitativo post-chirurgico da definire dopo l'intervento."
+            objectives_next = "Post-op: protocollo riabilitativo specifico per tipo di intervento"
+
+        return {
+            "weeks": weeks,
+            "months": months,
+            "days": days,
+            "phase_number": phase_number,
+            "phase_name": phase_name,
+            "post_op": post_op,
+            "acute": acute,
+            "monaco_grade": monaco_grade,
+            "objectives_now": objectives_now,
+            "objectives_next": objectives_next,
+        }
 
     # Determina fase riabilitativa in base a timing e contesto
     if post_op:
@@ -615,10 +724,12 @@ def parse_phase_context(condition: str) -> dict:
     return {
         "weeks": weeks,
         "months": months,
+        "days": days if 'days' in dir() else None,
         "phase_number": phase_number,
         "phase_name": phase_name,
         "post_op": post_op,
         "acute": acute,
+        "monaco_grade": None,
         "objectives_now": objectives_now,
         "objectives_next": objectives_next,
     }
